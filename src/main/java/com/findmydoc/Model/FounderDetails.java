@@ -35,5 +35,4 @@ public class FounderDetails {
     @Column(name="is_verified")
     private boolean isVerified;
 
-
 }

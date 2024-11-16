@@ -48,7 +48,7 @@ public class DocumentServiceImpl implements DocumentService {
             } else {
                 throw new InvalidParameterException("Either the Document Number or the Serial Number must be at least 5 characters long.");
             }
-        } else if (!documentDetails.getOwnerFirstName().matches("[A-Za-z]{2,20}")) {
+        } else if (!ownerFirstName.matches("[A-Za-z]{2,20}")) {
             throw new InvalidParameterException("Invalid owner's first name. Only 2 - 20 Alphabetic characters are allowed");
 
         } else if (!String.valueOf(founderId).matches("\\d{1,10}")) {

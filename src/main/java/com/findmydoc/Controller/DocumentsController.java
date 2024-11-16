@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping({"/api/documents/"})
+@RequestMapping({"/api/v1/document/"})
 public class DocumentsController {
     public static final Logger logger = LoggerFactory.getLogger(DocumentsController.class);
 
@@ -25,7 +25,7 @@ public class DocumentsController {
 
     public DocumentsController() {}
 
-    @PostMapping({"add-new"})
+    @PostMapping({"new"})
     public ResponseEntity<Map<String, String>> addNewDocument(@Valid @RequestBody DocumentDetails documentDetails) throws Exception {
         documentService.addNewDocument(documentDetails);
         logger.info("Document saved successfully");
