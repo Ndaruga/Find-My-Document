@@ -20,7 +20,7 @@ public class DocumentDetails {
     @Column(name="document_id", nullable=false, unique=true)
     private int docId;
 
-    @Size(min=3, max=100)
+    @Size(min=3, max=100, message = "Document type must be between 3 - 100 characters")
     @Column(name="document_type", nullable = false)
     private String docType;
 
@@ -31,6 +31,10 @@ public class DocumentDetails {
     @Size(min=3, max = 100, message = "Document Number must be between 3 - 100 characters")
     @Column(name="document_number", nullable=false)
     private String documentNumber;
+
+    @Size(min=2, max=20, message = "Owners first name can only be between 2 -20 characters")
+    @Column(name="owner_first_name", nullable = false)
+    private String ownerFirstName;
 
     @Column(name="upload_date", nullable = false)
     private Timestamp uploadDate;

@@ -2,6 +2,7 @@ package com.findmydoc.Controller;
 
 import com.findmydoc.Model.DocumentDetails;
 import com.findmydoc.Service.DocumentService;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,7 @@ public class DocumentsController {
     public DocumentsController() {}
 
     @PostMapping({"add-new"})
-    public ResponseEntity<Map<String, String>> addNewDocument(@Validated @RequestBody DocumentDetails documentDetails){
-        logger.info("addNewDocument");
-        logger.info(documentDetails.toString());
+    public ResponseEntity<Map<String, String>> addNewDocument(@Valid @RequestBody DocumentDetails documentDetails) throws Exception {
         documentService.addNewDocument(documentDetails);
         logger.info("Document saved successfully");
         return new ResponseEntity<>(Map.of("message", "Document added Successfully"), HttpStatus.CREATED);
