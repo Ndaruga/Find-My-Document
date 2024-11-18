@@ -1,9 +1,10 @@
 package com.findmydoc.Model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+
+import java.sql.Timestamp;
 
 
 @Entity
@@ -14,7 +15,7 @@ import lombok.*;
 @Setter
 
 @Table(name = "Founder")
-public class FounderDetails {
+public class CustodianDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="founder_id", nullable=false, updatable = false)
@@ -24,15 +25,23 @@ public class FounderDetails {
     @Column(name="founder_name", nullable = false)
     private String fullName;
 
-    @Email
-    @Column(name = "founder_email")
-    private String email;
-
     @Size(min=12, max=15, message = "Phone Number must be between 12 - 15 digits")
     @Column(name="phone_number", nullable = false, unique = true)
     private Long phoneNumber;
 
-    @Column(name="is_verified")
+//    @Column(name="alternate_phone_number", unique = true)
+//    private Long alternatePhoneNumber;
+
+    @Column(name="is_verified", nullable = false)
     private boolean isVerified;
+
+    @Column(name="login_time")
+    private Timestamp loginDateTime;
+
+    @Column(name="one_time_password")
+    private int oneTimePassword;
+
+    @Column(name="is_logged_in", nullable = false)
+    private boolean isLoggedIn = false;
 
 }
