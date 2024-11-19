@@ -55,6 +55,4 @@ public class OwnerController {
             return new ResponseEntity<>(Map.of("message", e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
-
-
 }
