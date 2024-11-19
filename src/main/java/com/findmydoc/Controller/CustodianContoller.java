@@ -1,7 +1,9 @@
 package com.findmydoc.Controller;
 
 import com.findmydoc.Model.CustodianDetails;
+import com.findmydoc.Model.dto.VerifyOtpRequest;
 import com.findmydoc.Service.CustodianService;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,17 +26,26 @@ public class CustodianContoller {
 
     public CustodianContoller() {}
 
-    @PostMapping({"/new"})
+    @PostMapping({"/register"})
     public ResponseEntity<Map<String, String>> addNewCustodian(@RequestBody CustodianDetails custodianDetails) {
         custodianService.addNewCustodian(custodianDetails);
         logger.info(custodianDetails.toString());
         return new ResponseEntity<>(Map.of("message", "Custodian added Successfully"), HttpStatus.CREATED);
     }
 
-//    @PostMapping({"login"})
-//    public ResponseEntity<Map<String, String>> loginFounder(@RequestBody CustodianLoginRequest founderLoginRequest) {
-//        founderService.loginFounder(founderLoginRequest);
-//        logger.info(founderLoginRequest.toString());
-//        return new ResponseEntity<>(Map.of("message", "Founder login Successfully"), HttpStatus.OK);
-//    }
+    @PostMapping({"verify-otp"})
+    public ResponseEntity<Map<String, String>> verifyOtp(@RequestBody @Valid VerifyOtpRequest verifyOtpRequest){
+        try{
+            boolean isVerified = custodianService.validateOtp(verifyOtpRequest.getPhoneNumber(), verifyOtpRequest.getOtp());
+            if(isVerified){
+                return new ResponseEntity<>(Map.of("message", "OTP verified successfully"), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(Map.of("message", "Failed to verify OTP"), HttpStatus.BAD_REQUEST);
+            }
+        } catch (Exception e){
+            return new ResponseEntity<>(Map.of("message", e.getMessage()), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
 }

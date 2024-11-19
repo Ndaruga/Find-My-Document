@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -14,15 +15,15 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 
-@Table(name = "Founder")
+@Table(name = "Custodian")
 public class CustodianDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="founder_id", nullable=false, updatable = false)
+    @Column(name="custodian_id", nullable=false, updatable = false)
     private int Id;
 
     @Size(min=5, max=100, message="Name must be more than  characters")
-    @Column(name="founder_name", nullable = false)
+    @Column(name="custodian_name", nullable = false)
     private String fullName;
 
     @Size(min=12, max=15, message = "Phone Number must be between 12 - 15 digits")
@@ -41,7 +42,10 @@ public class CustodianDetails {
     @Column(name="one_time_password")
     private int oneTimePassword;
 
+    @Column(name="otp_expiration_time")
+    private LocalDateTime otpExpirationTime;
+
     @Column(name="is_logged_in", nullable = false)
-    private boolean isLoggedIn = false;
+    private boolean isLoggedIn;
 
 }

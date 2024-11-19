@@ -1,16 +1,20 @@
 package com.findmydoc.Service.Impl;
 
 import com.findmydoc.Model.CustodianDetails;
-import com.findmydoc.Model.dto.CustodianRegistrationRequest;
 import com.findmydoc.Repository.CustodianRepository;
 import com.findmydoc.Service.CustodianService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.security.InvalidParameterException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
 
 import static com.findmydoc.Service.Impl.GenerateOTP.generateOTP;
 
@@ -32,44 +36,57 @@ public class CustodianServiceImpl implements CustodianService {
             throw new InvalidParameterException("Invalid name provided");
         } else if (!String.valueOf(phoneNumber).matches("[0-9]{12,15}")) {
             throw new InvalidParameterException("Invalid Phone Number. Only 12 to 15 numbers are allowed.");
-        }else if (custodianRepository.findByPhoneNumber(phoneNumber)){
+        }else if (custodianRepository.existsByPhoneNumber(phoneNumber)){
             throw new InvalidParameterException("Phone Number already exists");
         }else {
 //            Send Verification OTP
             int registrationOtp = generateOTP(5);
-            logger.info("Generated registration OTP: " + registrationOtp);
-            
+            LocalDateTime otpExpirationTime = LocalDateTime.now().plusMinutes(5);
+
+            String message = String.format("Hi %s.\nWelcome On board.\nYour OTP for registration is: %d. Valid for 5 minutes.", custodianDetails.getFullName().split(" ")[0], registrationOtp);
+//            smsService.sendSMS(phoneNumber, message);
+            logger.info(message);
+
             custodianDetails.setOneTimePassword(registrationOtp);
+            custodianDetails.setOtpExpirationTime(otpExpirationTime);
             custodianDetails.setVerified(false);
             custodianDetails.setLoggedIn(false);
             return custodianRepository.save(custodianDetails);
         }
     }
 
-//    Send a Registration request to the server
-    public CustodianRegistrationRequest registrationRequest(CustodianDetails custodianDetails) {
-        CustodianRegistrationRequest custodianRegistrationRequest = new CustodianRegistrationRequest();
+    @Override
+    public boolean validateOtp(Long phoneNumber, int enteredOtp) {
+        LocalDateTime currentTime = LocalDateTime.now();
+        CustodianDetails custodianDetails = custodianRepository.findByPhoneNumber(phoneNumber)
+                .orElseThrow(() -> new InvalidParameterException("Phone Number not Registered"));
 
+        if (custodianDetails.getOneTimePassword() != enteredOtp) {
+            throw new InvalidParameterException("Invalid OTP");
+        } else if (custodianDetails.getOtpExpirationTime() == null ||
+                custodianDetails.getOtpExpirationTime().isBefore(currentTime)) {
+            throw new InvalidParameterException("OTP has expired. Please request a new OTP");
+        } else {
+            custodianDetails.setVerified(true);
+            custodianDetails.setLoggedIn(true);
+            custodianDetails.setOtpExpirationTime(null);
+            custodianDetails.setLoginDateTime(new Timestamp(System.currentTimeMillis()));
+            custodianDetails.setOneTimePassword(0);
+            custodianRepository.save(custodianDetails);
+            return true;
+        }
     }
-    
 
-//    @Override
-//    public CustodianLoginRequest loginFounder(CustodianLoginRequest founderLoginRequest) {
-//        Long phoneNumber = founderLoginRequest.getPhoneNumber();
-//        int oneTimePassword = founderLoginRequest.getOneTimePassword();
-//
-//        if (!String.valueOf(phoneNumber).matches("[0-9]{12,15}")) {
-//            throw new InvalidParameterException("Invalid Phone Number. Only 12 to 15 numbers are allowed.");
-//        } else if (!String.valueOf(oneTimePassword).matches("[0-9]{5}")) {
-//            throw new InvalidParameterException("Invalid One Time Password provided");
-//        } else if (!founderRepository.findByPhoneNumber(phoneNumber)) {
-//            throw new InvalidParameterException("Provided Phone Number does not exist");
-//        } else if (!founderRepository.findByPhoneNumberAndOtp(phoneNumber, oneTimePassword)) {
-//            throw new InvalidParameterException("Provided OTP or Phone Number does not exist");
-//        } else {
-//            founderLoginRequest.setVerified(true);
-//            return founderLoginRequest;
-//        }
-//    }
+    @Transactional
+    @Scheduled(fixedRate = 60000) // Runs every minute
+    public void clearExpiredOtps() {
+        logger.info("Scheduled task running to clear expired OTPs.");
+        List<CustodianDetails> expiredCustodians = custodianRepository.findAllByOtpExpirationTimeBefore(LocalDateTime.now());
+        for (CustodianDetails custodian : expiredCustodians) {
+            custodian.setOneTimePassword(0); // Reset OTP or delete it
+            custodian.setOtpExpirationTime(null);
+            custodianRepository.save(custodian);
+        }
+    }
 
 }
