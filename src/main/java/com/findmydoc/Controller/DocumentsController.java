@@ -1,7 +1,9 @@
 package com.findmydoc.Controller;
 
 import com.findmydoc.Model.DocumentDetails;
+import com.findmydoc.Model.dto.DocumentSearchDTO;
 import com.findmydoc.Service.DocumentService;
+import com.findmydoc.Service.OwnerService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +25,9 @@ public class DocumentsController {
     @Autowired
     private DocumentService documentService;
 
+    @Autowired
+    private OwnerService ownerService;
+
     public DocumentsController() {}
 
     @PostMapping({"new"})
@@ -31,6 +36,14 @@ public class DocumentsController {
         logger.info("Document saved successfully");
         return new ResponseEntity<>(Map.of("message", "Document added Successfully"), HttpStatus.CREATED);
 
+    }
+
+    @GetMapping({"/find"})
+    public ResponseEntity<Map<String, String>> searchDocument(@Valid @RequestBody DocumentSearchDTO documentSearchDTO) throws Exception {
+        if (!ownerService.documentExists(documentSearchDTO)){
+            return new ResponseEntity<>(Map.of("message", "Document not found"), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(Map.of("message", "Document found"), HttpStatus.OK);
     }
 
 }

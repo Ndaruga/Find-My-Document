@@ -5,6 +5,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 
 @Entity
 @Data
@@ -24,15 +26,26 @@ public class OwnerDetails {
     @Column(name="owner_name", nullable = false)
     private String fullName;
 
-    @Email
-    @Column(name = "owner_email")
-    private String email;
-
     @Size(min=12, max=15, message = "Phone Number must be between 12 - 15 digits")
     @Column(name="phone_number", nullable = false, unique = true)
     private Long phoneNumber;
 
-    @Column(name="is_verified")
-    private boolean isVerified;
+//    @Column(name="alternate_phone_number", unique = true)
+//    private Long alternatePhoneNumber;
+
+    @Column(name="is_verified", nullable = false)
+    private boolean isVerified = false;
+
+    @Column(name="login_time")
+    private LocalDateTime loginDateTime;
+
+    @Column(name="one_time_password", nullable = false)
+    private int oneTimePassword=0;
+
+    @Column(name="otp_expiration_time")
+    private LocalDateTime otpExpirationTime;
+
+    @Column(name="is_logged_in", nullable = false)
+    private boolean isLoggedIn;
 
 }

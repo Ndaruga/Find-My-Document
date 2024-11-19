@@ -22,7 +22,7 @@ public class DocumentDetails {
 
     @Size(min=3, max=100, message = "Document type must be between 3 - 100 characters")
     @Column(name="document_type", nullable = false)
-    private String docType;
+    private String documentType;
 
     @Size(min=0, max=100)
     @Column(name="serial_number")

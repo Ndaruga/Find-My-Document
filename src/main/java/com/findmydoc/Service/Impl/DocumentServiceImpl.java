@@ -25,7 +25,7 @@ public class DocumentServiceImpl implements DocumentService {
     public DocumentDetails addNewDocument(@Valid DocumentDetails documentDetails) throws Exception {
 
 //        Trim white spaces
-        String documentType = documentDetails.getDocType().strip();
+        String documentType = documentDetails.getDocumentType().strip();
         String documentNumber = documentDetails.getDocumentNumber().toUpperCase().strip();
         String docSerialNo = documentDetails.getSerialNumber().toUpperCase().strip();
         String ownerFirstName = documentDetails.getOwnerFirstName().strip();
