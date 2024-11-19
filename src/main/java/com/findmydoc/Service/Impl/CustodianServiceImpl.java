@@ -15,6 +15,7 @@ import java.security.InvalidParameterException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static com.findmydoc.Service.Impl.GenerateOTP.generateOTP;
 
@@ -56,6 +57,37 @@ public class CustodianServiceImpl implements CustodianService {
     }
 
     @Override
+    public String loginCustodian(Long phoneNumber){
+        LocalDateTime currentTime = LocalDateTime.now();
+        CustodianDetails custodianDetails = custodianRepository.findByPhoneNumber(phoneNumber)
+                .orElseThrow(() -> new InvalidParameterException("Phone Number not Registered"));
+        if (!String.valueOf(phoneNumber).matches("[0-9]{12,15}")) {
+            throw new InvalidParameterException("Invalid Phone Number. Only 12 to 15 numbers are allowed.");
+        } else if (!custodianDetails.isVerified()) {
+            throw new InvalidParameterException("Phone Number not verified");
+        } else if (currentTime.isBefore(custodianDetails.getLoginDateTime().plusHours(24)) && custodianDetails.isLoggedIn()){
+            return "Session Active";
+        } else {
+            logger.info("Session Expired");
+
+            //            Send Verification OTP
+            int loginOtp = generateOTP(4);
+            LocalDateTime otpExpirationTime = LocalDateTime.now().plusMinutes(5);
+
+            String message = String.format("Hi %s.\nYour login OTP is: %d. Valid for 5 minutes.", custodianDetails.getFullName().split(" ")[0], loginOtp);
+//            smsService.sendSMS(phoneNumber, message);
+            logger.info(message);
+
+            custodianDetails.setOneTimePassword(loginOtp);
+            custodianDetails.setOtpExpirationTime(otpExpirationTime);
+            custodianDetails.setLoggedIn(false);
+            custodianRepository.save(custodianDetails);
+            return "Your Session expired. Please Login with the OTP sent to your phone number.";
+
+        }
+    }
+
+    @Override
     public boolean validateOtp(Long phoneNumber, int enteredOtp) {
         LocalDateTime currentTime = LocalDateTime.now();
         CustodianDetails custodianDetails = custodianRepository.findByPhoneNumber(phoneNumber)
@@ -70,7 +102,7 @@ public class CustodianServiceImpl implements CustodianService {
             custodianDetails.setVerified(true);
             custodianDetails.setLoggedIn(true);
             custodianDetails.setOtpExpirationTime(null);
-            custodianDetails.setLoginDateTime(new Timestamp(System.currentTimeMillis()));
+            custodianDetails.setLoginDateTime(currentTime);
             custodianDetails.setOneTimePassword(0);
             custodianRepository.save(custodianDetails);
             return true;

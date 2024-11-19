@@ -1,6 +1,7 @@
 package com.findmydoc.Controller;
 
 import com.findmydoc.Model.CustodianDetails;
+import com.findmydoc.Model.dto.CustodianLoginRequest;
 import com.findmydoc.Model.dto.VerifyOtpRequest;
 import com.findmydoc.Service.CustodianService;
 import jakarta.validation.Valid;
@@ -31,6 +32,14 @@ public class CustodianContoller {
         custodianService.addNewCustodian(custodianDetails);
         logger.info(custodianDetails.toString());
         return new ResponseEntity<>(Map.of("message", "Custodian added Successfully"), HttpStatus.CREATED);
+    }
+
+    @PostMapping({"/login"})
+    public ResponseEntity<Map<String, String>> loginCustodian(@RequestBody CustodianLoginRequest loginRequest) {
+        Long phoneNumber = loginRequest.getPhoneNumber();
+        String response = custodianService.loginCustodian(phoneNumber);
+        logger.info(custodianService.toString());
+        return new ResponseEntity<>(Map.of("message", response), HttpStatus.OK);
     }
 
     @PostMapping({"verify-otp"})

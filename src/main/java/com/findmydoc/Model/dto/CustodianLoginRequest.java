@@ -9,6 +9,4 @@ import lombok.*;
 @Setter
 public class CustodianLoginRequest {
     private Long phoneNumber;
-    private int oneTimePassword;
-    private boolean isVerified;
 }

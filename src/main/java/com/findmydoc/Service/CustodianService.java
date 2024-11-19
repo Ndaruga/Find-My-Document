@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 public interface CustodianService {
     CustodianDetails addNewCustodian(CustodianDetails custodianDetails);
 
+    String loginCustodian(Long phoneNumber);
+
     boolean validateOtp(Long phoneNumber, int enteredOtp);
 
-//    CustodianLoginRequest loginFounder(CustodianLoginRequest founderLoginRequest);
 }

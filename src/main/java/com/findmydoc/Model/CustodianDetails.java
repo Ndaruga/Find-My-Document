@@ -34,13 +34,13 @@ public class CustodianDetails {
 //    private Long alternatePhoneNumber;
 
     @Column(name="is_verified", nullable = false)
-    private boolean isVerified;
+    private boolean isVerified = false;
 
     @Column(name="login_time")
-    private Timestamp loginDateTime;
+    private LocalDateTime loginDateTime;
 
-    @Column(name="one_time_password")
-    private int oneTimePassword;
+    @Column(name="one_time_password", nullable = false)
+    private int oneTimePassword=0;
 
     @Column(name="otp_expiration_time")
     private LocalDateTime otpExpirationTime;
