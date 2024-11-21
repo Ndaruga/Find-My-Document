@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import static com.findmydoc.Service.Impl.GenerateOTP.generateOTP;
 
@@ -111,7 +112,7 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public boolean documentExists(DocumentSearchDTO documentSearch) {
+    public boolean documentExists(DocumentSearchDTO documentSearch) throws Exception {
         String documentType = documentSearch.getDocType().strip();
         String documentNumber = documentSearch.getDocNo().toUpperCase().strip();
         String docSerialNumber = documentSearch.getDocSerialNo().toUpperCase().strip();
@@ -122,7 +123,8 @@ public class OwnerServiceImpl implements OwnerService {
             return true;
         } else if (documentsRepository.existsBySerialNumberAndDocumentType(docSerialNumber, documentType)) {
             return true;
+        } else {
+            return false;
         }
-        return false;
     }
 }

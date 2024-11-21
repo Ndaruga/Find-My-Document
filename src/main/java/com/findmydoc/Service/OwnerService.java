@@ -1,6 +1,5 @@
 package com.findmydoc.Service;
 
-import com.findmydoc.Model.DocumentDetails;
 import com.findmydoc.Model.OwnerDetails;
 import com.findmydoc.Model.dto.DocumentSearchDTO;
 import com.findmydoc.Model.dto.OwnerLoginRequest;
@@ -16,5 +15,5 @@ public interface OwnerService {
 
     boolean validateOtp(Long phoneNumber, int enteredOtp);
 
-    boolean documentExists(DocumentSearchDTO documentSearch);
+    boolean documentExists(DocumentSearchDTO documentSearch) throws Exception;
 }

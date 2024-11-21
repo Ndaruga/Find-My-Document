@@ -12,5 +12,4 @@ public class DocumentSearchDTO {
     private String docType;
     private String docNo;
     private String docSerialNo;
-
 }

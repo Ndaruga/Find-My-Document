@@ -35,15 +35,14 @@ public class DocumentsController {
         documentService.addNewDocument(documentDetails);
         logger.info("Document saved successfully");
         return new ResponseEntity<>(Map.of("message", "Document added Successfully"), HttpStatus.CREATED);
-
     }
 
     @GetMapping({"/find"})
     public ResponseEntity<Map<String, String>> searchDocument(@Valid @RequestBody DocumentSearchDTO documentSearchDTO) throws Exception {
+
         if (!ownerService.documentExists(documentSearchDTO)){
             return new ResponseEntity<>(Map.of("message", "Document not found"), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(Map.of("message", "Document found"), HttpStatus.OK);
     }
-
 }
