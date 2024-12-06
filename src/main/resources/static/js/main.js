@@ -50,60 +50,85 @@
         }
     });
 
-    // Owl Carousel Sliders
-    const headerCarousel = $(".header-carousel");
-    headerCarousel.owlCarousel({
-        autoplay: true,
-        smartSpeed: 1500,
-        items: 1,
-        dots: false,
-        loop: true,
-        nav: true,
-        navText: [
-            '<i class="bi bi-chevron-left"></i>',
-            '<i class="bi bi-chevron-right"></i>'
-        ]
-    });
+    // Carousel Control
+    let headerCarousel;
+    let testimonialCarousel;
 
-    const testimonialCarousel = $(".testimonial-carousel");
-    testimonialCarousel.owlCarousel({
-        autoplay: true,
-        smartSpeed: 1000,
-        center: true,
-        margin: 24,
-        dots: true,
-        loop: true,
-        nav: false,
-        responsive: {
-            0: {
-                items: 1
-            },
-            768: {
-                items: 2
-            },
-            992: {
-                items: 3
+    // Initialize carousels
+    $(document).ready(function() {
+        headerCarousel = $(".header-carousel");
+        testimonialCarousel = $(".testimonial-carousel");
+
+        headerCarousel.owlCarousel({
+            autoplay: true,
+            smartSpeed: 1500,
+            items: 1,
+            dots: false,
+            loop: true,
+            nav: true,
+            navText: [
+                '<i class="bi bi-chevron-left"></i>',
+                '<i class="bi bi-chevron-right"></i>'
+            ]
+        });
+
+        testimonialCarousel.owlCarousel({
+            autoplay: true,
+            smartSpeed: 1000,
+            center: true,
+            margin: 24,
+            dots: true,
+            loop: true,
+            nav: false,
+            responsive: {
+                0: { items: 1 },
+                768: { items: 2 },
+                992: { items: 3 }
             }
-        }
+        });
     });
 
-    // Open the pop-up and pause slider
-    window.openForm = function () {
+    // Form handling functions
+    window.openRegisterForm = function() {
+        // Stop carousels
         headerCarousel.trigger('stop.owl.autoplay');
         testimonialCarousel.trigger('stop.owl.autoplay');
-        document.getElementById("popupForm").style.display = "flex";
-        console.log("Form popped");
+        
+        // Show register form
+        document.getElementById('registerForm').style.display = 'flex';
     };
 
-    // Close the pop-up and resume slider
-    window.closeForm = function () {
-        console.log("Form closed");
-        document.getElementById("popupForm").style.display = "none";
+    window.openSearchForm = function() {
+        // Stop carousels
+        headerCarousel.trigger('stop.owl.autoplay');
+        testimonialCarousel.trigger('stop.owl.autoplay');
+        
+        // Show search form
+        document.getElementById('searchForm').style.display = 'flex';
+    };
 
-        // Resume the sliders
-        headerCarousel.trigger('play.owl.autoplay', [1000]); // Resume at 1000ms autoplay speed
+    window.closeForm = function(formId) {
+        document.getElementById(formId).style.display = 'none';
+        
+        // Resume carousels
+        headerCarousel.trigger('play.owl.autoplay', [1500]);
         testimonialCarousel.trigger('play.owl.autoplay', [1000]);
     };
+
+    // Form submission handlers
+    $(document).ready(function() {
+        $('#registerDocForm').on('submit', function(e) {
+            e.preventDefault();
+            // Handle register form submission
+            closeForm('registerForm');
+        });
+
+        $('#searchDocForm').on('submit', function(e) {
+            e.preventDefault();
+            // Handle search form submission
+            closeForm('searchForm');
+        });
+    });
 
     // Back to top button
     $(window).scroll(function () {
@@ -115,7 +140,7 @@
     });
 
     $('.back-to-top').click(function () {
-        $('html, body').animate({ scrollTop: 0 }, 1500, 'easeInOutExpo');
+        $('html, body').animate({scrollTop: 0}, 1500, 'easeInOutExpo');
         return false;
     });
 
