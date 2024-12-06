@@ -80,8 +80,27 @@
                                 <h5 class="text-primary text-uppercase mb-3 animated slideInDown">Lost Documents finder</h5>
                                 <h1 class="display-3 text-white animated slideInDown">Found a Lost Document?</h1>
                                 <p class="fs-5 text-white mb-4 pb-2">Help reunite people with their precious papers. Return a document, make a difference!</p>
-                                <a href="/register-document" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Register Document</a>
+                                <a href="javascript:void(0);" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" onclick="openForm()">Register Document</a>
                                 <!-- <a href="" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Find a Document</a> -->
+                            </div>
+                            <!-- Pop-Up Form -->
+                            <div id="popupForm" class="popup-form">
+                                <div class="popup-content">
+                                    <span class="close-btn" onclick="closeForm()">&times;</span>
+                                    <h2>Found A Lost Document?</h2>
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="documentName" class="form-label">Document Name</label>
+                                            <input type="text" id="documentName" class="form-control" placeholder="Enter document name" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="contactInfo" class="form-label">Contact Information</label>
+                                            <input type="email" id="contactInfo" class="form-control" placeholder="Enter your email" required>
+                                        </div>
+                                        
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>

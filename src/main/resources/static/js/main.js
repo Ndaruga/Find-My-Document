@@ -89,12 +89,10 @@
 
     // Open the pop-up and pause slider
     window.openForm = function () {
-        console.log("Form popped");
-        document.getElementById("popupForm").style.display = "flex";
-
-        // Pause the sliders
         headerCarousel.trigger('stop.owl.autoplay');
         testimonialCarousel.trigger('stop.owl.autoplay');
+        document.getElementById("popupForm").style.display = "flex";
+        console.log("Form popped");
     };
 
     // Close the pop-up and resume slider
