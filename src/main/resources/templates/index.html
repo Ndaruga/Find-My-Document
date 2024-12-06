@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Lost Document Finder</title>
+    <title>Lost Documents  Finder</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -58,7 +58,6 @@
                     <div class="dropdown-menu fade-down m-0">
                         <a href="team.html" class="dropdown-item">Our Team</a>
                         <a href="/testimonials" class="dropdown-item">Testimonial</a>
-                        <a href="/error" class="dropdown-item">404 Page</a>
                     </div>
                 </div>
                 <a href="/feedback" class="nav-item nav-link">Feedback</a>
@@ -94,12 +93,35 @@
                     <div class="container">
                         <div class="row justify-content-start">
                             <div class="col-sm-10 col-lg-8">
-                                <h5 class="text-primary text-uppercase mb-3 animated slideInDown">Lost Documents finder</h5>
+                                <h5 class="text-primary text-uppercase mb-3 animated slideInDown">Lost Documents Finder</h5>
                                 <h1 class="display-3 text-white animated slideInDown">Lost your Documents?</h1>
                                 <p class="fs-5 text-white mb-4 pb-2">Don’t panic! Our community is here to help you find what’s yours.</p>
-                                <!-- <a href="" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Register Document</a> -->
-                                <a href="/find-my-document" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Find a Document</a>
+                                <a href="javascript:void(0);" class="btn btn-light py-md-3 px-md-5 animated slideInRight" onclick="openForm()">Search my Document</a>
                             </div>
+                            
+                            <!-- Pop-Up Form -->
+                            <div id="popupForm" class="popup-form">
+                                <div class="popup-content">
+                                    <span class="close-btn" onclick="closeForm()">&times;</span>
+                                    <h2>Search Your Lost Document</h2>
+                                    <form>
+                                        <div class="mb-3">
+                                            <label for="documentName" class="form-label">Document Name</label>
+                                            <input type="text" id="documentName" class="form-control" placeholder="Enter document name" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="contactInfo" class="form-label">Contact Information</label>
+                                            <input type="email" id="contactInfo" class="form-control" placeholder="Enter your email" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="description" class="form-label">Description</label>
+                                            <textarea id="description" class="form-control" rows="4" placeholder="Provide additional details"></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
