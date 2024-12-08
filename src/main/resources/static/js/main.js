@@ -1,3 +1,8 @@
+
+// Carousel Control
+let headerCarousel;
+let testimonialCarousel;
+
 (function ($) {
     "use strict";
 
@@ -50,9 +55,6 @@
         }
     });
 
-    // Carousel Control
-    let headerCarousel;
-    let testimonialCarousel;
 
     // Initialize carousels
     $(document).ready(function() {
@@ -88,32 +90,6 @@
         });
     });
 
-    // Form handling functions
-    window.openRegisterForm = function() {
-        // Stop carousels
-        headerCarousel.trigger('stop.owl.autoplay');
-        testimonialCarousel.trigger('stop.owl.autoplay');
-        
-        // Show register form
-        document.getElementById('registerForm').style.display = 'flex';
-    };
-
-    window.openSearchForm = function() {
-        // Stop carousels
-        headerCarousel.trigger('stop.owl.autoplay');
-        testimonialCarousel.trigger('stop.owl.autoplay');
-        
-        // Show search form
-        document.getElementById('searchForm').style.display = 'flex';
-    };
-
-    window.closeForm = function(formId) {
-        document.getElementById(formId).style.display = 'none';
-        
-        // Resume carousels
-        headerCarousel.trigger('play.owl.autoplay', [1500]);
-        testimonialCarousel.trigger('play.owl.autoplay', [1000]);
-    };
 
     // Form submission handlers
     $(document).ready(function() {
@@ -145,3 +121,22 @@
     });
 
 })(jQuery);
+
+// Form handling functions
+function openRegisterForm() {
+    console.log("Register Form called")
+    headerCarousel.trigger('stop.owl.autoplay');
+    document.getElementById('registerForm').style.display = 'flex';
+};
+
+function openSearchForm() {
+    // Stop carousels
+    console.log("Search Form called")
+    headerCarousel.trigger('stop.owl.autoplay');
+    document.getElementById('searchForm').style.display = 'flex';
+};
+
+function closeForm(formId) {
+    document.getElementById(formId).style.display = 'none';
+    headerCarousel.trigger('play.owl.autoplay', [1500]);
+};

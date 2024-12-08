@@ -29,6 +29,7 @@
 
     <!-- Template Stylesheet -->
     <link href="../static/css/style.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -97,8 +98,7 @@
                                 <h1 class="display-3 text-white animated slideInDown">Lost your Documents?</h1>
                                 <p class="fs-5 text-white mb-4 pb-2">Don’t panic! Our community is here to help you find what’s yours.</p>
                                 <a href="javascript:void(0);" class="btn btn-light py-md-3 px-md-5 animated slideInRight" onclick="openSearchForm()">Search my Document</a>
-                            </div>
-                                                        
+                            </div>                            
                         </div>
                     </div>
                 </div>
@@ -511,27 +511,72 @@
     </div>
     <!-- Footer End -->
 
-
-    <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-
+    
     <!-- Register Document Form -->
     <div id="registerForm" class="popup-form">
         <div class="popup-content">
             <div class="popup-header">
-                <h2 class="popup-title">Found A Lost Document?</h2>
                 <button type="button" class="close-btn" onclick="closeForm('registerForm')">&times;</button>
+                <h2 class="popup-title">Let's Find the Owner</h2>
             </div>
             <form id="registerDocForm">
-                <div class="mb-3">
-                    <label for="documentName" class="form-label">Document Name</label>
-                    <input type="text" id="documentName" class="form-control" placeholder="Enter document name" required>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="documentType" class="form-label">Document Type</label>
+                        <select id="documentType" class="form-select" required>
+                            <option value="" disabled selected>Select document type</option>
+                            <option value="id">National ID Card</option>
+                            <option value="passport">Passport</option>
+                            <option value="dl">Driver's License</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="nationality" class="form-label">Nationality</label>
+                        <select id="nationality" class="form-select" required>
+                            <option value="" disabled selected>Select nationality</option>
+                            <!-- Example countries; you can add more -->
+                            <option value="kenya">Kenya</option>
+                            <option value="uganda">Uganda</option>
+                            <option value="tanzania">Tanzania</option>
+                            <!-- Add more countries as needed -->
+                        </select>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="contactInfo" class="form-label">Contact Information</label>
-                    <input type="email" id="contactInfo" class="form-control" placeholder="Enter your email" required>
+    
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="ownerFirstName" class="form-label">Owner's First Name</label>
+                        <input type="text" id="ownerFirstName" class="form-control" placeholder="Enter owner's first name" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="ownerLastName" class="form-label">Owner's Last Name</label>
+                        <input type="text" id="ownerLastName" class="form-control" placeholder="Enter owner's last name" required>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Submit</button>
+    
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="documentNumber" class="form-label">Document Number</label>
+                        <input type="text" id="documentNumber" class="form-control" placeholder="Enter document number" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="serialNumber" class="form-label">Serial Number</label>
+                        <input type="text" id="serialNumber" class="form-control" placeholder="Enter serial number" required>
+                    </div>
+                </div>
+    
+                <div class="mb-3">
+                    <label for="dateFound" class="form-label">Date Found</label>
+                    <input type="date" id="dateFound" class="form-control" required>
+                </div>
+    
+                <div class="mb-3">
+                    <label for="additionalNotes" class="form-label">Additional Notes</label>
+                    <textarea id="additionalNotes" class="form-control" rows="3" placeholder="Enter any additional notes"></textarea>
+                </div>
+    
+                <button type="submit" class="btn btn-primary w-100">Next</button>
             </form>
         </div>
     </div>
@@ -560,6 +605,10 @@
             </form>
         </div>
     </div>
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
