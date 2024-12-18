@@ -95,7 +95,62 @@ let testimonialCarousel;
     $(document).ready(function() {
         $('#registerDocForm').on('submit', function(e) {
             e.preventDefault();
-            // Handle register form submission
+            const firstName = $('#ownerFirstName').val().trim();
+            const lastName = $('#ownerLastName').val().trim();
+            const documentNumber = $('#documentNumber').val().trim();
+            const serialNumber = $('#serialNumber').val().trim();
+            const dateFound = $('#dateFound').val();
+
+            // Validation regex patterns
+            const namePattern = /^[A-Za-z]+$/;
+            const docSerialPattern = /^[A-Z0-9-]+$/;
+
+            // Current date
+            const today = new Date();
+            const fifteenDaysAgo = new Date();
+            fifteenDaysAgo.setDate(today.getDate() - 15);
+
+            // Validate names
+            if (!namePattern.test(firstName)) {
+                alert("Owner's first name must contain alphabetic characters only.");
+                return;
+            }
+
+            if (lastName && !namePattern.test(lastName)) {
+                alert("Owner's last name must contain alphabetic characters only.");
+                return;
+            }
+
+            // Validate document and serial numbers
+            if (documentNumber && !docSerialPattern.test(documentNumber)) {
+                alert("Document number must contain only uppercase letters, numbers, or hyphens.");
+                return;
+            }
+
+            if (serialNumber && !docSerialPattern.test(serialNumber)) {
+                alert("Serial number must contain only uppercase letters, numbers, or hyphens.");
+                return;
+            }
+
+            // Validate date found
+            const dateFoundObj = new Date(dateFound);
+            if (isNaN(dateFoundObj)) {
+                alert("Please select a valid date.");
+                return;
+            }
+
+            if (dateFoundObj > today) {
+                alert("The date found cannot be in the future.");
+                return;
+            }
+
+            if (dateFoundObj < fifteenDaysAgo) {
+                alert("The date found cannot be earlier than 15 days ago.");
+                return;
+            }
+
+            // If all validations pass, proceed
+            alert("Form submitted successfully!");
             closeForm('registerForm');
         });
 
