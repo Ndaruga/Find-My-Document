@@ -29,12 +29,16 @@ public class DocumentDetails {
     private String serialNumber;
 
     @Size(min=3, max = 100, message = "Document Number must be between 3 - 100 characters")
-    @Column(name="document_number", nullable=false)
+    @Column(name="document_number")
     private String documentNumber;
 
     @Size(min=2, max=20, message = "Owners first name can only be between 2 -20 characters")
     @Column(name="owner_first_name", nullable = false)
     private String ownerFirstName;
+
+    @Size(min=0, max=300)
+    @Column(name="more_notes")
+    private String moreNotes;
 
     @Column(name="upload_date", nullable = false)
     private Timestamp uploadDate;

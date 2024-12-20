@@ -511,7 +511,49 @@
     </div>
     <!-- Footer End -->
 
-    
+    <!-- Login form for custodian-->
+
+    <div id="custodianLoginForm" class="popup-form">
+        <div class="popup-content">
+            <div class="popup-header">
+                <button type="button" class="close-btn" onclick="closeForm('custodianLoginForm')">&times;</button>
+                <h2 class="popup-title">Let Us Know You</h2>
+            </div>
+            <form action="/submit" method="POST">
+                <label for="first-name">First Name:</label>
+                <input type="text" id="first-name" name="first_name" required>
+
+                <label for="last-name">Last Name:</label>
+                <input type="text" id="last-name" name="last_name" required>
+
+                <label for="phone">Phone Number:</label>
+                <input type="tel" id="phone" name="phone" required>
+
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location" required>
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+
+                <label for="confirm-password">Confirm Password:</label>
+                <input type="password" id="confirm-password" name="confirm_password" required>
+
+                <div>
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">I agree to the Terms and Conditions</label>
+                </div>
+
+                <div>
+                    <input type="checkbox" id="share-details" name="share_details">
+                    <label for="share-details">I agree to share personal details with the document owner</label>
+                </div>
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+
     <!-- Register Document Form -->
     <div id="registerForm" class="popup-form">
         <div class="popup-content">
@@ -538,7 +580,6 @@
                             <option value="kenya">Kenya</option>
                             <option value="uganda">Uganda</option>
                             <option value="tanzania">Tanzania</option>
-                            <!-- Add more countries as needed -->
                         </select>
                     </div>
                 </div>

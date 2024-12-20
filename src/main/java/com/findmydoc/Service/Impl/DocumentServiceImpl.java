@@ -29,9 +29,15 @@ public class DocumentServiceImpl implements DocumentService {
         String documentNumber = documentDetails.getDocumentNumber().toUpperCase().strip();
         String docSerialNo = documentDetails.getSerialNumber().toUpperCase().strip();
         String ownerFirstName = documentDetails.getOwnerFirstName().strip();
+        String moreNotes = documentDetails.getMoreNotes().strip();
         int founderId = documentDetails.getFounderId();
 
         logger.info(documentType + " " + documentNumber + " " + docSerialNo + " " + founderId);
+
+//        Validate that either the document number or serial number must exist
+        if (documentNumber.length() < 5 && docSerialNo.length() < 5){
+            throw new InvalidParameterException("Invalid document identifier");
+        }
 
 
 //        Validate the document type
@@ -82,6 +88,12 @@ public class DocumentServiceImpl implements DocumentService {
                 }
             }
         }
+
+//      Validate more notes
+        if (!moreNotes.matches("[A-Za-z0-9.,\\s]{0,300}")){
+            throw new InvalidParameterException("Additional notes contain invalid characters");
+        }
+
         documentDetails.setUploadDate(new Timestamp(System.currentTimeMillis()));
         return documentsRepository.save(documentDetails);
     }
