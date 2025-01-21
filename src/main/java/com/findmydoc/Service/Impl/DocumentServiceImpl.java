@@ -1,6 +1,7 @@
 package com.findmydoc.Service.Impl;
 
 import com.findmydoc.Model.DocumentDetails;
+import com.findmydoc.Model.dto.DocumentSearchDTO;
 import com.findmydoc.Repository.DocumentsRepository;
 import com.findmydoc.Service.DocumentService;
 import jakarta.validation.Valid;
@@ -97,4 +98,30 @@ public class DocumentServiceImpl implements DocumentService {
         documentDetails.setUploadDate(new Timestamp(System.currentTimeMillis()));
         return documentsRepository.save(documentDetails);
     }
+
+    @Override
+    public boolean documentExists(DocumentSearchDTO documentSearch) throws Exception {
+        String documentType = documentSearch.getDocType().strip();
+        String documentNumber = documentSearch.getDocNo() != null ? documentSearch.getDocNo().toUpperCase().strip() : null;
+        String docSerialNumber = documentSearch.getDocSerialNo() != null ? documentSearch.getDocSerialNo().toUpperCase().strip() : null;
+
+        if (!documentType.matches("[A-Za-z\\s]{5,50}")) {
+            throw new InvalidParameterException("Invalid document type provided");
+        }
+
+        // Check by document number if provided
+        if (documentNumber != null && !documentNumber.isEmpty() &&
+                documentsRepository.existsByDocumentNumberAndDocumentType(documentNumber, documentType)) {
+            return true;
+        }
+
+        // Check by document serial number if provided
+        if (docSerialNumber != null && !docSerialNumber.isEmpty() &&
+                documentsRepository.existsBySerialNumberAndDocumentType(docSerialNumber, documentType)) {
+            return true;
+        }
+
+        return false;
+    }
+
 }

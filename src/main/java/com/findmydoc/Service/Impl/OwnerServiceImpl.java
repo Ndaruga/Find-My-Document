@@ -111,20 +111,4 @@ public class OwnerServiceImpl implements OwnerService {
         }
     }
 
-    @Override
-    public boolean documentExists(DocumentSearchDTO documentSearch) throws Exception {
-        String documentType = documentSearch.getDocType().strip();
-        String documentNumber = documentSearch.getDocNo().toUpperCase().strip();
-        String docSerialNumber = documentSearch.getDocSerialNo().toUpperCase().strip();
-
-        if (!documentType.matches("[A-Za-z\\s]{5,50}")){
-            throw new InvalidParameterException("Invalid document type provided");
-        } else if (documentsRepository.existsByDocumentNumberAndDocumentType(documentNumber, documentType)) {
-            return true;
-        } else if (documentsRepository.existsBySerialNumberAndDocumentType(docSerialNumber, documentType)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 }

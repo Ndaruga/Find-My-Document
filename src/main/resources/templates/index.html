@@ -630,18 +630,20 @@
             </div>
             <form id="searchDocForm">
                 <div class="mb-3">
-                    <label for="searchDocName" class="form-label">Document Name</label>
-                    <input type="text" id="searchDocName" class="form-control" placeholder="Enter document name" required>
+                    <label for="documentType" class="form-label">Document Type</label>
+                        <select id="documentType" class="form-select" required>
+                            <option value="" disabled selected>Select document type</option>
+                            <option value="id">National ID Card</option>
+                            <option value="passport">Passport</option>
+                            <option value="dl">Driver's License</option>
+                            <option value="other">Other</option>
+                        </select>
                 </div>
                 <div class="mb-3">
-                    <label for="searchContactInfo" class="form-label">Contact Information</label>
-                    <input type="email" id="searchContactInfo" class="form-control" placeholder="Enter your email" required>
+                    <label for="documentNumber" class="form-label">Document No. or Serial No.</label>
+                    <input type="text" id="documentNumber" class="form-control" placeholder="Enter Doc or Serial number">
                 </div>
-                <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea id="description" class="form-control" rows="4" placeholder="Provide additional details"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary w-100">Submit</button>
+                <button type="submit" class="btn btn-primary w-100">Search</button>
             </form>
         </div>
     </div>

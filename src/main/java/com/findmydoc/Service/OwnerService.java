@@ -14,6 +14,4 @@ public interface OwnerService {
     String loginOwner(OwnerLoginRequest loginRequest);
 
     boolean validateOtp(Long phoneNumber, int enteredOtp);
-
-    boolean documentExists(DocumentSearchDTO documentSearch) throws Exception;
 }

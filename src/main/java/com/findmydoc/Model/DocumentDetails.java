@@ -36,7 +36,6 @@ public class DocumentDetails {
     @Column(name="owner_first_name", nullable = false)
     private String ownerFirstName;
 
-    @Size(min=0, max=300)
     @Column(name="more_notes")
     private String moreNotes;
 
