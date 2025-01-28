@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
@@ -35,6 +36,9 @@ public class DocumentDetails {
     @Size(min=2, max=20, message = "Owners first name can only be between 2 -20 characters")
     @Column(name="owner_first_name", nullable = false)
     private String ownerFirstName;
+
+    @Column(name="date_found", nullable = false)
+    private Date dateFound;
 
     @Column(name="more_notes")
     private String moreNotes;

@@ -274,6 +274,59 @@
     transform: scale(1.1);
 }
 
+/* Pop up modals */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.modal-content {
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.modal-content h2 {
+    margin-bottom: 10px;
+}
+.modal-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+.modal-buttons button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+#closeButton {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+#claimButton {
+    background-color: #06BBCC;
+    color: #ffffff;
+}
+
+#noButton {
+    background-color: #d4edda;
+    color: #0a0a0a;
+}
+#yesButton {
+    background-color: #06BBCC; 
+    color: #ffffff;
+}
+
 
 /*** Section Title ***/
 .section-title {

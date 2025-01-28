@@ -567,10 +567,10 @@
                         <label for="documentType" class="form-label">Document Type</label>
                         <select id="documentType" class="form-select" required>
                             <option value="" disabled selected>Select document type</option>
-                            <option value="id">National ID Card</option>
-                            <option value="passport">Passport</option>
-                            <option value="dl">Driver's License</option>
-                            <option value="other">Other</option>
+                            <option value="ID Card">National ID Card</option>
+                            <option value="Passport">Passport</option>
+                            <option value="Driver License">Driver's License</option>
+                            <option value="Other">Other</option>
                         </select>
                     </div>
                     <div class="col-md-6">
@@ -612,8 +612,8 @@
                 </div>
     
                 <div class="mb-3">
-                    <label for="additionalNotes" class="form-label">Additional Notes</label>
-                    <textarea id="additionalNotes" class="form-control" rows="3" placeholder="Enter any additional notes"></textarea>
+                    <label for="moreNotes" class="form-label">Additional Notes</label>
+                    <textarea id="moreNotes" class="form-control" rows="3" placeholder="Enter any additional notes"></textarea>
                 </div>
     
                 <button type="submit" class="btn btn-primary w-100">Next</button>
@@ -630,23 +630,49 @@
             </div>
             <form id="searchDocForm">
                 <div class="mb-3">
-                    <label for="documentType" class="form-label">Document Type</label>
-                        <select id="documentType" class="form-select" required>
+                    <label for="docType" class="form-label">Document Type</label>
+                        <select id="docType" class="form-select" required>
                             <option value="" disabled selected>Select document type</option>
-                            <option value="id">National ID Card</option>
-                            <option value="passport">Passport</option>
-                            <option value="dl">Driver's License</option>
-                            <option value="other">Other</option>
+                            <option value="ID Card">National ID Card</option>
+                            <option value="Passport">Passport</option>
+                            <option value="Driver License">Driver's License</option>
+                            <option value="Other">Other</option>
                         </select>
                 </div>
                 <div class="mb-3">
-                    <label for="documentNumber" class="form-label">Document No. or Serial No.</label>
-                    <input type="text" id="documentNumber" class="form-control" placeholder="Enter Doc or Serial number">
+                    <label for="docNumber" class="form-label">Document No. or Serial No.</label>
+                    <input type="text" id="docNumber" class="form-control" placeholder="Enter Doc or Serial number">
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Search</button>
             </form>
         </div>
     </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal" style="display: none;">
+        <div class="modal-content" style="background-color: #d4edda;">
+            <h2 style="color: #155724;">Congratulations!</h2>
+            <p>Your document has been found.</p>
+            <div class="modal-buttons">
+                <button id="closeButton">Close</button>
+                <button id="claimButton">Claim</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal" style="display: none;">
+        <div class="modal-content" style="background-color:rgb(243, 241, 241);">
+            <h2 style="color: #721c24;">Ops! Document not found</h2>
+            <p>Would you like to be notified once someone finds it?</p>
+            <div class="modal-buttons">
+                <button id="noButton">No</button>
+                <button id="yesButton">Yes</button>
+            </div>
+        </div>
+    </div>
+
+
 
 
     <!-- Back to Top -->

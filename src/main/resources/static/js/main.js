@@ -100,6 +100,8 @@ let testimonialCarousel;
             const documentNumber = $('#documentNumber').val().trim();
             const serialNumber = $('#serialNumber').val().trim();
             const dateFound = $('#dateFound').val();
+            const moreNotes = $('#moreNotes').val().trim()
+            const founderId = 12;
 
             // Validation regex patterns
             const namePattern = /^[A-Za-z]+$/;
@@ -150,15 +152,86 @@ let testimonialCarousel;
             }
 
             // If all validations pass, proceed
-            alert("Form submitted successfully!");
-            closeForm('registerForm');
+            const payload = {
+                documentType,
+                serialNumber,
+                documentNumber,
+                ownerFirstName,
+                dateFound,
+                moreNotes,
+                founderId
+            };
+    
+            // Send POST request
+            $.ajax({
+                url: "api/v1/document/new",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(payload),
+                success: function(response) {
+                    alert("Document registered successfully!");
+                    closeForm('registerForm');
+                },
+                error: function(error) {
+                    alert("Failed to register document: " + error.responseText);
+                }
+            });
         });
 
         $('#searchDocForm').on('submit', function(e) {
             e.preventDefault();
-            // Handle search form submission
-            closeForm('searchForm');
+        
+            const docType = $('#docType').val().trim();
+            const docNo = $('#docNumber').val().trim();
+        
+            // Encode query parameters
+            const queryParams = `?docType=${encodeURIComponent(docType)}&docNo=${encodeURIComponent(docNo)}`;
+        
+            // Send GET request with query parameters
+            $.ajax({
+                url: `/api/v1/document/search${queryParams}`,
+                type: "GET",
+                success: function(response) {
+                    if (response.message === "Document found") {
+                        $('#successModal').fadeIn();
+                        closeForm('searchForm');
+                        $('#searchDocForm')[0].reset();
+                    }
+                },
+                error: function(error) {
+                    if (error.status === 404) {
+                        $('#errorModal').fadeIn();
+                    } else {
+                        alert("An error occurred while processing your request.");
+                    }
+                    $('#searchDocForm')[0].reset();
+                }
+            });
         });
+    });
+
+    // Modal button handlers
+    $('#closeButton').on('click', function() {
+        $('#searchDocForm')[0].reset();
+        closeForm('searchForm');
+        $('#successModal').fadeOut(); 
+    });
+
+    $('#claimButton').on('click', function() {
+        // Handle claim action (e.g., redirect to claim page)
+        window.location.href = "/claim-document";
+    });
+
+    // In error Modal 
+    $('#noButton').on('click', function() {
+        $('#searchDocForm')[0].reset();
+        closeForm('searchForm');
+        $('#errorModal').fadeOut();
+    });
+
+    $('#yesButton').on('click', function() {
+        // Handle claim action (e.g., redirect to claim page)
+        window.location.href = "/notify";
     });
 
     // Back to top button
@@ -179,14 +252,12 @@ let testimonialCarousel;
 
 // Form handling functions
 function openRegisterForm() {
-    console.log("Register Form called")
     headerCarousel.trigger('stop.owl.autoplay');
     document.getElementById('registerForm').style.display = 'flex';
 };
 
 function openSearchForm() {
     // Stop carousels
-    console.log("Search Form called")
     headerCarousel.trigger('stop.owl.autoplay');
     document.getElementById('searchForm').style.display = 'flex';
 };

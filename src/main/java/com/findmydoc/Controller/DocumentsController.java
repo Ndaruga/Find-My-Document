@@ -37,12 +37,17 @@ public class DocumentsController {
         return new ResponseEntity<>(Map.of("message", "Document added Successfully"), HttpStatus.CREATED);
     }
 
-    @GetMapping({"/search"})
-    public ResponseEntity<Map<String, String>> searchDocument(@Valid @RequestBody DocumentSearchDTO documentSearchDTO) throws Exception {
+    @GetMapping("/search")
+    public ResponseEntity<Map<String, String>> searchDocument(
+            @RequestParam String docType,
+            @RequestParam String docNo) throws Exception {
 
-        if (!documentService.documentExists(documentSearchDTO)){
+        DocumentSearchDTO documentSearchDTO = new DocumentSearchDTO(docType, docNo);
+
+        if (!documentService.documentExists(documentSearchDTO)) {
             return new ResponseEntity<>(Map.of("message", "Document not found"), HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(Map.of("message", "Document found"), HttpStatus.OK);
     }
+
 }

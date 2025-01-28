@@ -103,7 +103,9 @@ public class DocumentServiceImpl implements DocumentService {
     public boolean documentExists(DocumentSearchDTO documentSearch) throws Exception {
         String documentType = documentSearch.getDocType().strip();
         String documentNumber = documentSearch.getDocNo() != null ? documentSearch.getDocNo().toUpperCase().strip() : null;
-        String docSerialNumber = documentSearch.getDocSerialNo() != null ? documentSearch.getDocSerialNo().toUpperCase().strip() : null;
+//        String docSerialNumber = documentSearch.getDocSerialNo() != null ? documentSearch.getDocSerialNo().toUpperCase().strip() : null;
+
+        logger.info(documentType +" " + documentNumber);
 
         if (!documentType.matches("[A-Za-z\\s]{5,50}")) {
             throw new InvalidParameterException("Invalid document type provided");
@@ -115,9 +117,9 @@ public class DocumentServiceImpl implements DocumentService {
             return true;
         }
 
-        // Check by document serial number if provided
-        if (docSerialNumber != null && !docSerialNumber.isEmpty() &&
-                documentsRepository.existsBySerialNumberAndDocumentType(docSerialNumber, documentType)) {
+        // Check if doc No provided is a serial number and exists
+        if (documentNumber != null && !documentNumber.isEmpty() &&
+                documentsRepository.existsBySerialNumberAndDocumentType(documentNumber, documentType)) {
             return true;
         }
 
