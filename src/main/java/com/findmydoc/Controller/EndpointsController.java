@@ -40,4 +40,5 @@ public class EndpointsController {
     }
 
     @GetMapping("/details-display")
+    public String detailsDisplay() {}
 }
