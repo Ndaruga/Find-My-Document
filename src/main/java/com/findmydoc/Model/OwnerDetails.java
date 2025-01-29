@@ -30,9 +30,6 @@ public class OwnerDetails {
     @Column(name="phone_number", nullable = false, unique = true)
     private Long phoneNumber;
 
-//    @Column(name="alternate_phone_number", unique = true)
-//    private Long alternatePhoneNumber;
-
     @Column(name="is_verified", nullable = false)
     private boolean isVerified = false;
 

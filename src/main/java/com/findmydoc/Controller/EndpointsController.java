@@ -31,6 +31,11 @@ public class EndpointsController {
 
     @GetMapping("/testimonials")
     public String testimonials() {
-        return "testimonials.html";
+        return "testimonial.html";
+    }
+
+    @GetMapping("/claim-document")
+    public String claimDocument() {
+        return "claim-document.html";
     }
 }

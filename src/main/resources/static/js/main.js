@@ -208,6 +208,107 @@ let testimonialCarousel;
                 }
             });
         });
+
+        // Claim form 
+        // Initially disable the submit button, verification fields, and checkboxes
+        $(".verification-box input, .form-check input, .submit-btn").prop("disabled", true);
+
+        // Handle Verify Button Click
+        $("#verifyBtn").on("click", function () {
+            const firstName = $("#firstName").val().trim();
+            const lastName = $("#lastName").val().trim();
+            const phoneNumber = $("#countryCode").val() + $("#phoneNumber").val().trim();
+
+            if (!firstName || !lastName) {
+                alert("Please enter your First Name and Last Name.");
+                return;
+            }
+
+            if (!$("#phoneNumber").val().trim()) {
+                alert("Please enter a valid phone number.");
+                return;
+            }
+
+            // Send verification request
+            $.ajax({
+                url: "/api/v1/owner/register",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ fullName: firstName + " " + lastName, phoneNumber }),
+                success: function () {
+                    alert("Verification code sent. Please check your phone.");
+                    // Enable verification code input, checkboxes, and submit button
+                    $(".verification-box input, .form-check input, .submit-btn").prop("disabled", false);
+                },
+                error: function () {
+                    alert("Error sending verification code. Please try again.");
+                }
+            });
+        });
+
+        // Enable Submit Button only when verification is complete & checkboxes are checked
+        $(".verification-box input").on("keyup", function () {
+            let code = $(".verification-box input").map(function () {
+                return $(this).val();
+            }).get().join("");
+
+            if (code.length === 5 && $("#agreeTerms").prop("checked") && $("#agreeThirdParty").prop("checked")) {
+                $(".submit-btn").prop("disabled", false);
+            } else {
+                $(".submit-btn").prop("disabled", true);
+            }
+        });
+
+        $(".form-check input").on("change", function () {
+            let code = $(".verification-box input").map(function () {
+                return $(this).val();
+            }).get().join("");
+
+            if (code.length === 5 && $("#agreeTerms").prop("checked") && $("#agreeThirdParty").prop("checked")) {
+                $(".submit-btn").prop("disabled", false);
+            } else {
+                $(".submit-btn").prop("disabled", true);
+            }
+        });
+
+        // Handle Form Submission
+        $("#claimDocumentForm").on("submit", function (e) {
+            e.preventDefault();
+
+            const phoneNumber = $("#countryCode").val() + $("#phoneNumber").val().trim();
+            const otp = $(".verification-box input").map(function () {
+                return $(this).val();
+            }).get().join("");
+
+            if (otp.length !== 5) {
+                alert("Please enter the full 5-digit verification code.");
+                return;
+            }
+
+            if (!$("#agreeTerms").prop("checked") || !$("#agreeThirdParty").prop("checked")) {
+                alert("Please agree to both Terms & Conditions and Third-Party Data Sharing.");
+                return;
+            }
+
+            // Send claim request
+            $.ajax({
+                url: "/api/v1/owner/verify-otp",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    phoneNumber,
+                    otp
+                }),
+                success: function () {
+                    alert("Details validation successful!");
+                    $("#claimDocumentForm")[0].reset(); // Reset form
+                    $(".verification-box input, .form-check input, .submit-btn").prop("disabled", true);
+                },
+                error: function () {
+                    alert("Error claiming document. Please try again.");
+                }
+            });
+        });
     });
 
     // Modal button handlers

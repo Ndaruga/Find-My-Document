@@ -122,7 +122,6 @@ public class DocumentServiceImpl implements DocumentService {
                 documentsRepository.existsBySerialNumberAndDocumentType(documentNumber, documentType)) {
             return true;
         }
-
         return false;
     }
 
