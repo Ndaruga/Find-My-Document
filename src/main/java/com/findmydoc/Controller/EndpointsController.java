@@ -38,4 +38,6 @@ public class EndpointsController {
     public String claimDocument() {
         return "claim-document.html";
     }
+
+    @GetMapping("/details-display")
 }
