@@ -192,8 +192,8 @@ let testimonialCarousel;
                 url: `/api/v1/document/search${queryParams}`,
                 type: "GET",
                 success: function(response) {
-                    if (response.message === "Document found") {
-                        console.log(response.status);
+                    if (response.documentNumber === docNo || response.serialNumber === docNo) {
+                        sessionStorage.setItem("custodianId", response.custodianId);
                         sessionStorage.setItem("foundDocumentType", docType);
                         sessionStorage.setItem("foundDocumentNo", docNo);
                         $('#successModal').fadeIn();
@@ -278,8 +278,6 @@ let testimonialCarousel;
         $("#claimDocumentForm").on("submit", function (e) {
             e.preventDefault();
             
-
-
             const phoneNumber = $("#countryCode").val() + $("#phoneNumber").val().trim();
             const otp = $(".verification-box input").map(function () {
                 return $(this).val();
@@ -305,7 +303,7 @@ let testimonialCarousel;
                     otp
                 }),
                 success: function () {
-                    alert("Details validation successful!");
+                    window.location.href="/custodian-details";
                     $("#claimDocumentForm")[0].reset(); // Reset form
                     $(".verification-box input, .form-check input, .submit-btn").prop("disabled", true);
                 },

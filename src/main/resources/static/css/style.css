@@ -572,8 +572,12 @@
     color: #333;
 }
 
-.details-container .phone-info .phone-number {
+.details-container .phone-info .custodianPhone {
     color: #2196F3;
+}
+
+.details-container .custodianFirstName {
+    font-weight: bold;
 }
 
 /*** Footer ***/

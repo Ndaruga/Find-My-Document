@@ -13,4 +13,6 @@ public interface CustodianRepository extends JpaRepository<CustodianDetails, Int
     List<CustodianDetails> findAllByOtpExpirationTimeBefore(LocalDateTime now);
 
     Optional<CustodianDetails> findByPhoneNumber(Long phoneNumber);
+
+    Optional<CustodianDetails> findById(Integer custodianId);
 }

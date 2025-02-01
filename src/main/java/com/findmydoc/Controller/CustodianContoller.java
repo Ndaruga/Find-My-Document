@@ -10,12 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping({"api/v1/custodian"})
@@ -42,7 +40,7 @@ public class CustodianContoller {
         return new ResponseEntity<>(Map.of("message", response), HttpStatus.OK);
     }
 
-    @PostMapping({"verify-otp"})
+    @PostMapping({"/verify-otp"})
     public ResponseEntity<Map<String, String>> verifyOtp(@RequestBody @Valid VerifyOtpRequest verifyOtpRequest){
         try{
             boolean isVerified = custodianService.validateOtp(verifyOtpRequest.getPhoneNumber(), verifyOtpRequest.getOtp());
@@ -54,6 +52,11 @@ public class CustodianContoller {
         } catch (Exception e){
             return new ResponseEntity<>(Map.of("message", e.getMessage()), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @GetMapping("/details/{custodianId}")
+    public Optional<CustodianDetails> getCustodianDetails(@PathVariable Integer custodianId) {
+        return custodianService.getCustodianDetails(custodianId);
     }
 
 

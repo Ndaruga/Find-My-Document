@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.security.InvalidParameterException;
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DocumentServiceImpl implements DocumentService {
@@ -101,27 +103,28 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public boolean documentExists(DocumentSearchDTO documentSearch) throws Exception {
+    public Optional<DocumentDetails> documentExists(DocumentSearchDTO documentSearch) throws Exception {
         String documentType = documentSearch.getDocType().strip();
         String documentNumber = documentSearch.getDocNo() != null ? documentSearch.getDocNo().toUpperCase().strip() : null;
-//        String docSerialNumber = documentSearch.getDocSerialNo() != null ? documentSearch.getDocSerialNo().toUpperCase().strip() : null;
 
         if (!documentType.matches("[A-Za-z\\s]{5,50}")) {
             throw new InvalidParameterException("Invalid document type provided");
         }
 
         // Check by document number if provided
-        if (documentNumber != null && !documentNumber.isEmpty() &&
-                documentsRepository.existsByDocumentNumberAndDocumentType(documentNumber, documentType)) {
-            return true;
-        }
+        if (documentNumber != null && !documentNumber.isEmpty()) {
+            // First check if it's a document number If not found, check if it's a serial number
+            Optional<DocumentDetails> documentDetails = documentsRepository.findByDocumentNumberAndDocumentType(documentNumber, documentType);
 
-        // Check if doc No provided is a serial number and exists
-        if (documentNumber != null && !documentNumber.isEmpty() &&
-                documentsRepository.existsBySerialNumberAndDocumentType(documentNumber, documentType)) {
-            return true;
+            if (documentDetails.isEmpty()) {
+                return documentsRepository.findBySerialNumberAndDocumentType(documentNumber, documentType);
+            }
+
+            return documentDetails;
+        } else {
+            throw new InvalidParameterException("Document number must be provided");
         }
-        return false;
     }
+
 
 }

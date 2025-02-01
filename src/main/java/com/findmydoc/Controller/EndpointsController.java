@@ -43,4 +43,9 @@ public class EndpointsController {
     public String detailsDisplay() {
         return "details-display.html";
     }
+
+    @GetMapping("/custodian-details")
+    public String custodianDetails() {
+        return "custodian-details.html";
+    }
 }

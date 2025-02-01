@@ -89,16 +89,16 @@
         <div class="container text-center">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
-                    <div class="details-container" id="resultContainer">
-                        <div class="congrats">Your <span class="documentType" id="documentType">ID Card</span> with No: <span class="documentNo" id="documentNo">456893</span> was found by:</div>
+                    <div class="details-container" id="detailsContainer">
+                        <div class="congrats">Your <span class="documentType" id="documentType" style="color: black;">ID Card</span> with No: <span class="documentNo" id="documentNo" style="color: black;">456893</span> was found by:</div>
                         <div class="name-info">
-                            Name: <span id="custodianName">John Doe</span>
+                            Name: <span class="custodianName" id="custodianName">John Doe</span>
                         </div>
                         <div class="phone-info">
-                            Phone: <span class="phone-number" id="custodianPhone">+1 (555) 123-4567</span>
+                            Phone: <span class="custodianPhone" id="custodianPhone">+1 (555) 123-4567</span>
                         </div>
                         <p style="margin-top: 20px; color: #666;">
-                            Please contact the <span id="custodianName">John directly to arrange for document recovery.</span> <br><span style="color: red; font-weight: bold; margin-top: 15px;">Please Ensure you meet in a public place.</span>
+                            Please contact <span id="custodianFirstName" class="custodianFirstName">John</span> directly to arrange for document recovery. <br><span style="color: red; font-weight: bold; margin-top: 15px;">Please Ensure you meet in a public place.</span>
                         </p>
                     </div>
                 </div>
@@ -204,6 +204,8 @@
 
     <!-- Template Javascript -->
     <script src="../static/js/main.js"></script>
+    <script src="../static/js/details.js"></script>
+
 </body>
 
 </html>

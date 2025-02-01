@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping({"/api/v1/document/"})
@@ -38,16 +39,22 @@ public class DocumentsController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Map<String, String>> searchDocument(
+    public ResponseEntity<DocumentDetails> searchDocument(
             @RequestParam String docType,
             @RequestParam String docNo) throws Exception {
 
         DocumentSearchDTO documentSearchDTO = new DocumentSearchDTO(docType, docNo);
 
-        if (!documentService.documentExists(documentSearchDTO)) {
-            return new ResponseEntity<>(Map.of("message", "Document not found"), HttpStatus.NOT_FOUND);
+        // Call the service method to check if the document exists
+        Optional<DocumentDetails> documentDetailsOptional = documentService.documentExists(documentSearchDTO);
+
+        if (documentDetailsOptional.isPresent()) {
+            DocumentDetails documentDetails = documentDetailsOptional.get();
+            return new ResponseEntity<>(documentDetails, HttpStatus.OK);
+
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(Map.of("message", "Document found"), HttpStatus.OK);
     }
 
 }

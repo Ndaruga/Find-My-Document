@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.security.InvalidParameterException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static com.findmydoc.Service.Impl.GenerateOTP.generateOTP;
 
@@ -105,6 +106,10 @@ public class CustodianServiceImpl implements CustodianService {
             custodianRepository.save(custodianDetails);
             return true;
         }
+    }
+
+    public Optional<CustodianDetails> getCustodianDetails(Integer custodianId){
+        return custodianRepository.findById(custodianId);
     }
 
     @Transactional
