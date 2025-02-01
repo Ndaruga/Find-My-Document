@@ -193,6 +193,9 @@ let testimonialCarousel;
                 type: "GET",
                 success: function(response) {
                     if (response.message === "Document found") {
+                        console.log(response.status);
+                        sessionStorage.setItem("foundDocumentType", docType);
+                        sessionStorage.setItem("foundDocumentNo", docNo);
                         $('#successModal').fadeIn();
                         closeForm('searchForm');
                         $('#searchDocForm')[0].reset();
@@ -274,6 +277,8 @@ let testimonialCarousel;
         // Handle Form Submission
         $("#claimDocumentForm").on("submit", function (e) {
             e.preventDefault();
+            
+
 
             const phoneNumber = $("#countryCode").val() + $("#phoneNumber").val().trim();
             const otp = $(".verification-box input").map(function () {
@@ -319,7 +324,14 @@ let testimonialCarousel;
     });
 
     $('#claimButton').on('click', function() {
-        // Handle claim action (e.g., redirect to claim page)
+        const foundDocumentNo = sessionStorage.getItem("foundDocumentNo");
+        const foundDocumentType = sessionStorage.getItem("foundDocumentType");
+
+
+        if (!foundDocumentNo && !foundDocumentType){
+            alert("No document found. Please search a document first.");
+            return;
+        }
         window.location.href = "/claim-document";
     });
 

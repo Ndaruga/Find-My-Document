@@ -46,11 +46,11 @@ public class DocumentDetails {
     @Column(name="upload_date", nullable = false)
     private Timestamp uploadDate;
 
-    @Column(name="founder_id", nullable=false, updatable = false)
-    private int founderId;
-
-    @Column(name = "owner_id", updatable = false)
+    @Column(name="owner_id", updatable = false)
     private int ownerId;
+
+    @Column(name = "custodian_id", nullable = false, updatable = false)
+    private int custodianId;
 
     @Column(name="claimDate", updatable = false)
     private Timestamp claimDate;

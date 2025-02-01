@@ -31,9 +31,9 @@ public class DocumentServiceImpl implements DocumentService {
         String docSerialNo = documentDetails.getSerialNumber().toUpperCase().strip();
         String ownerFirstName = documentDetails.getOwnerFirstName().strip();
         String moreNotes = documentDetails.getMoreNotes().strip();
-        int founderId = documentDetails.getFounderId();
+        int custodianId = documentDetails.getCustodianId();
 
-        logger.info(documentType + " " + documentNumber + " " + docSerialNo + " " + founderId);
+        logger.info(documentType + " " + documentNumber + " " + docSerialNo + " " + custodianId);
 
 //        Validate that either the document number or serial number must exist
         if (documentNumber.length() < 5 && docSerialNo.length() < 5){
@@ -58,7 +58,7 @@ public class DocumentServiceImpl implements DocumentService {
         } else if (!ownerFirstName.matches("[A-Za-z]{2,20}")) {
             throw new InvalidParameterException("Invalid owner's first name. Only 2 - 20 Alphabetic characters are allowed");
 
-        } else if (!String.valueOf(founderId).matches("\\d{1,10}")) {
+        } else if (!String.valueOf(custodianId).matches("\\d{1,10}")) {
             throw new InvalidParameterException("Invalid founder id");
 
         } else {
@@ -95,6 +95,7 @@ public class DocumentServiceImpl implements DocumentService {
             throw new InvalidParameterException("Additional notes contain invalid characters");
         }
 
+        documentDetails.setOwnerId(0);
         documentDetails.setUploadDate(new Timestamp(System.currentTimeMillis()));
         return documentsRepository.save(documentDetails);
     }
@@ -104,8 +105,6 @@ public class DocumentServiceImpl implements DocumentService {
         String documentType = documentSearch.getDocType().strip();
         String documentNumber = documentSearch.getDocNo() != null ? documentSearch.getDocNo().toUpperCase().strip() : null;
 //        String docSerialNumber = documentSearch.getDocSerialNo() != null ? documentSearch.getDocSerialNo().toUpperCase().strip() : null;
-
-        logger.info(documentType +" " + documentNumber);
 
         if (!documentType.matches("[A-Za-z\\s]{5,50}")) {
             throw new InvalidParameterException("Invalid document type provided");
