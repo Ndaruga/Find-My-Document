@@ -17,8 +17,8 @@ $(document).ready(function () {
         url: `/api/v1/custodian/details/${encodeURIComponent(custodianId)}`,
         type: "GET",
         success: function (response) {
+            console.log(response);
             // Dynamically update the document and custodian details
-            console.log(response.fullName.split('')[0]);
             $("#documentType").text(foundDocumentType);
             $("#documentNo").text(foundDocumentNo);
             $("#custodianName").text(response.fullName);

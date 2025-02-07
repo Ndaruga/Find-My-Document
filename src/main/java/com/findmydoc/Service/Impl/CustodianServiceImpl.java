@@ -40,10 +40,10 @@ public class CustodianServiceImpl implements CustodianService {
             throw new InvalidParameterException("Phone Number already exists");
         }else {
 //            Send Verification OTP
-            int registrationOtp = generateOTP(5);
+            int registrationOtp = generateOTP(4);
             LocalDateTime otpExpirationTime = LocalDateTime.now().plusMinutes(5);
 
-            String message = String.format("Hi %s.\nWelcome On board.\nYour OTP for registration is: %d. Valid for 5 minutes.", custodianDetails.getFullName().split(" ")[0], registrationOtp);
+            String message = String.format("Hi %s.\nWe appreciate your help.\nYour OTP for registration is: %d. Valid for 5 minutes.", custodianDetails.getFullName().split(" ")[0], registrationOtp);
 //            smsService.sendSMS(phoneNumber, message);
             logger.info(message);
 

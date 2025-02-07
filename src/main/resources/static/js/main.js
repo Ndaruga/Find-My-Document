@@ -212,26 +212,126 @@ let testimonialCarousel;
             });
         });
 
-        // Claim form 
-        // Initially disable the submit button, verification fields, and checkboxes
-        $(".verification-box input, .form-check input, .submit-btn").prop("disabled", true);
+        // Initially disable the owner verification input, check boxes and submit button
+        $(".c-verification-box input, .c-form-check input, .c-submit-btn").prop("disabled", true);
 
-        // Handle Verify Button Click
-        $("#verifyBtn").on("click", function () {
-            const firstName = $("#firstName").val().trim();
-            const lastName = $("#lastName").val().trim();
-            const phoneNumber = $("#countryCode").val() + $("#phoneNumber").val().trim();
+        // 📌 Custodian Form: Handle Verify Button Click
+        $(".c-verify-btn").on("click", function () {
+            const firstName = $("#c-firstName").val().trim();
+            const lastName = $("#c-lastName").val().trim();
+            const phoneNumber = $("#c-countryCode").val() + $("#c-phoneNumber").val().trim();
+            const otpLength = 4;
 
             if (!firstName || !lastName) {
                 alert("Please enter your First Name and Last Name.");
                 return;
             }
 
-            if (!$("#phoneNumber").val().trim()) {
+            if (!phoneNumber) {
                 alert("Please enter a valid phone number.");
                 return;
             }
 
+
+            // Send verification request
+            $.ajax({
+                url: "/api/v1/custodian/register",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ fullName: firstName + " " + lastName, phoneNumber }),
+                success: function () {
+                    alert("Verification code sent. Please check your phone.");
+                    $(".c-verification-box input, .c-form-check input, .c-submit-btn").prop("disabled", false);
+                    $(".c-verification-box input").data("otpLength", otpLength);
+                },
+                error: function () {
+                    alert("Error sending verification code. Please try again Later.");
+                }
+            });
+        });
+
+
+        // 📌 Custodian Form: Handle OTP Input & Enable Submit Button
+        $(".c-verification-box input").on("keyup", function (event) {            
+            const currentInput = $(this);        
+            // Handle number input
+            if (event.key >= 0 && event.key <= 9) {
+                if (currentInput.val().length === 1) {
+                    currentInput.next("input").focus();
+                }
+            }
+    
+            // Handle backspace key
+            if (event.key === "Backspace") {
+                if (currentInput.val().length === 0) {
+                    currentInput.prev("input").focus();
+                }
+            }
+            
+            let code = $(".c-verification-box input").map(function () {
+                return $(this).val();
+            }).get().join("");
+        });
+        
+        // 📌 Custodian Form: Handle Form Submission
+        $("#CustodianDetailsForm").on("submit", function (e) {
+            alert("We're Hre");
+            e.preventDefault();
+
+            const phoneNumber = $("#c-countryCode").val() + $("#c-phoneNumber").val().trim();
+            const otp = $(".c-verification-box input").map(function () {
+                return $(this).val();
+            }).get().join("");
+            const apiUrl = "/api/v1/custodian/verify-otp";
+            const otpLength = 4;
+
+            if (otp.length !== otpLength) {
+                alert("Please enter the full 4-digit verification code.");
+                return;
+            }
+
+            if (!$("#c-agreeTerms").prop("checked") || !$("#c-agreeThirdParty").prop("checked")) {
+                alert("Please agree to both Terms & Conditions and Third-Party Data Sharing.");
+                return;
+            }
+
+            $.ajax({
+                url: apiUrl,
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ phoneNumber, otp }),
+                success: function () {
+                    alert("Custodian verified successfully!");
+                    openRegisterForm('registerDocForm');
+                    $("#CustodianDetailsForm")[0].reset();
+                    $(".c-verification-box input, .c-form-check input, .c-submit-btn").prop("disabled", true);
+                },
+                error: function () {
+                    alert("Error verifying OTP. Please try again.");
+                }
+            });
+        });
+
+        // Initially disable the owner verification input, check boxes and submit button
+        $(".o-verification-box input, .o-form-check input, .o-submit-btn").prop("disabled", true);
+
+        // 📌 Owner Form: Handle Verify Button Click
+        $("#ownerVerifyBtn").on("click", function () {    
+            const firstName = $("#o-firstName").val().trim();
+            const lastName = $("#o-lastName").val().trim();
+            const phoneNumber = $("#o-countryCode").val() + $("#o-phoneNumber").val().trim();
+            const otpLength = 5;
+    
+            if (!firstName || !lastName) {
+                alert("Please enter your First Name and Last Name.");
+                return;
+            }
+    
+            if (!phoneNumber) {
+                alert("Please enter a valid phone number.");
+                return;
+            }
+        
             // Send verification request
             $.ajax({
                 url: "/api/v1/owner/register",
@@ -240,78 +340,85 @@ let testimonialCarousel;
                 data: JSON.stringify({ fullName: firstName + " " + lastName, phoneNumber }),
                 success: function () {
                     alert("Verification code sent. Please check your phone.");
-                    // Enable verification code input, checkboxes, and submit button
-                    $(".verification-box input, .form-check input, .submit-btn").prop("disabled", false);
+                    $(".o-verification-box input, .o-form-check input, .o-submit-btn").prop("disabled", false);
+                    $(".o-verification-box input").data("otpLength", otpLength);
                 },
                 error: function () {
                     alert("Error sending verification code. Please try again.");
                 }
             });
         });
-
-        // Enable Submit Button only when verification is complete & checkboxes are checked
-        $(".verification-box input").on("keyup", function () {
-            let code = $(".verification-box input").map(function () {
+    
+        // 📌 Owner Form: Handle OTP Input & Enable Submit Button
+        $(".o-verification-box input").on("keyup", function (event) {
+            const currentInput = $(this);
+            let otpLength = 5;
+        
+            // Handle number input
+            if (event.key >= 0 && event.key <= 9) {
+                if (currentInput.val().length === 1) {
+                    currentInput.next("input").focus();
+                }
+            }
+    
+            // Handle backspace key
+            if (event.key === "Backspace") {
+                if (currentInput.val().length === 0) {
+                    currentInput.prev("input").focus();
+                }
+            }
+    
+            // Collect the verification code
+            let code = $(".o-verification-box input").map(function () {
                 return $(this).val();
             }).get().join("");
-
-            if (code.length === 5 && $("#agreeTerms").prop("checked") && $("#agreeThirdParty").prop("checked")) {
-                $(".submit-btn").prop("disabled", false);
+        
+            if (code.length === otpLength && $("#OwnerAgreeTerms").prop("checked") && $("#OwnerAgreeThirdParty").prop("checked")) {
+                $(".owner-submit-btn").prop("disabled", false);
             } else {
-                $(".submit-btn").prop("disabled", true);
+                $(".owner-submit-btn").prop("disabled", true);
             }
         });
-
-        $(".form-check input").on("change", function () {
-            let code = $(".verification-box input").map(function () {
-                return $(this).val();
-            }).get().join("");
-
-            if (code.length === 5 && $("#agreeTerms").prop("checked") && $("#agreeThirdParty").prop("checked")) {
-                $(".submit-btn").prop("disabled", false);
-            } else {
-                $(".submit-btn").prop("disabled", true);
-            }
-        });
-
-        // Handle Form Submission
-        $("#claimDocumentForm").on("submit", function (e) {
+    
+        // 📌 Owner Form: Handle Form Submission
+        $("#OwnerDetailsForm").on("submit", function (e) {
+            console.log("Submit button - owner");
             e.preventDefault();
-            
-            const phoneNumber = $("#countryCode").val() + $("#phoneNumber").val().trim();
-            const otp = $(".verification-box input").map(function () {
+    
+            const phoneNumber = $("#OwnerDetails #countryCode").val() + $("#OwnerDetails #phoneNumber").val().trim();
+            let otp = $(".o-verification-box input").map(function () {
                 return $(this).val();
             }).get().join("");
-
-            if (otp.length !== 5) {
-                alert("Please enter the full 5-digit verification code.");
+    
+            let otpLength = $(".o-verification-box input").data("otpLength") || 5;
+    
+            if (otp.length !== otpLength) {
+                alert(`Please enter the full ${otpLength}-digit verification code.`);
                 return;
             }
-
-            if (!$("#agreeTerms").prop("checked") || !$("#agreeThirdParty").prop("checked")) {
+    
+            if (!$("#OwnerAgreeTerms").prop("checked") || !$("#OwnerAgreeThirdParty").prop("checked")) {
                 alert("Please agree to both Terms & Conditions and Third-Party Data Sharing.");
                 return;
             }
-
-            // Send claim request
+    
             $.ajax({
                 url: "/api/v1/owner/verify-otp",
                 type: "POST",
                 contentType: "application/json",
-                data: JSON.stringify({
-                    phoneNumber,
-                    otp
-                }),
+                data: JSON.stringify({ phoneNumber, otp }),
                 success: function () {
-                    window.location.href="/custodian-details";
-                    $("#claimDocumentForm")[0].reset(); // Reset form
-                    $(".verification-box input, .form-check input, .submit-btn").prop("disabled", true);
+                    alert("Owner verified successfully!");
+                    window.location.href = "/custodian-details";
+                    $("#OwnerDetailsForm")[0].reset();
+                    $(".o-verification-box input, #OwnerDetails .form-check input, .o-submit-btn").prop("disabled", true);
                 },
                 error: function () {
-                    alert("Error claiming document. Please try again.");
+                    alert("Error verifying OTP. Please try again.");
                 }
             });
-        });
+        });  
+
     });
 
     // Modal button handlers
@@ -330,7 +437,8 @@ let testimonialCarousel;
             alert("No document found. Please search a document first.");
             return;
         }
-        window.location.href = "/claim-document";
+        openRegisterForm('OwnerDetails');
+        $('#successModal').fadeOut();
     });
 
     // In error Modal 
@@ -362,9 +470,9 @@ let testimonialCarousel;
 })(jQuery);
 
 // Form handling functions
-function openRegisterForm() {
+function openRegisterForm(formId) {
     headerCarousel.trigger('stop.owl.autoplay');
-    document.getElementById('registerForm').style.display = 'flex';
+    document.getElementById(formId).style.display = 'flex';
 };
 
 function openSearchForm() {

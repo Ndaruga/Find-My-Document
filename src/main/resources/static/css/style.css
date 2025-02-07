@@ -328,6 +328,120 @@
 }
 
 
+/*********************************************/
+/************** CUSTODIAN DETAILS REGISTRATION********/
+/*********************************************/
+
+/* Phone Number Row Styling */
+#CustodianDetailsForm .phone-row .col-md-3 {
+    padding-right: 0;
+}
+
+#CustodianDetailsForm .phone-row .col-md-6 {
+    padding-left: 0;
+}
+
+#CustodianDetailsForm .phone-row button {
+    background-color: #06BBCC;
+    color: white;
+    border: none;
+    padding: 8px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#CustodianDetailsForm .phone-row button:hover {
+    background-color: #0495a2;
+    color: white;
+}
+
+#CustodianDetailsForm .c-verification-box {
+    width: fit-content;
+    margin: 20px auto; 
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+#CustodianDetailsForm .c-verification-box input {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    font-size: 20px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
+
+/* Submit Button */
+#CustodianDetailsForm .c-submit-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #4b5edd;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 16px;
+}
+
+/*********************************************/
+/************** OWNER DETAILS REGISTRATION********/
+/*********************************************/
+
+/* Phone Number Row Styling */
+#OwnerDetailsForm .phone-row .col-md-3 {
+    padding-right: 0;
+}
+
+#OwnerDetailsForm .phone-row .col-md-6 {
+    padding-left: 0;
+}
+
+#OwnerDetailsForm .phone-row button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#OwnerDetailsForm .phone-row button:hover {
+    background-color: #0056b3;
+}
+
+#OwnerDetailsForm .o-verification-box {
+    width: fit-content;
+    margin: 20px auto; 
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+#OwnerDetailsForm .o-verification-box input {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    font-size: 20px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
+
+/* Submit Button */
+#OwnerDetailsForm .o-submit-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 16px;
+}
 
 /*** Section Title ***/
 .section-title {

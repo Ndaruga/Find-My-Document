@@ -84,7 +84,7 @@
                                 <h5 class="text-primary text-uppercase mb-3 animated slideInDown">Lost Documents finder</h5>
                                 <h1 class="display-3 text-white animated slideInDown">Found a Lost Document?</h1>
                                 <p class="fs-5 text-white mb-4 pb-2">Help reunite people with their precious papers. Return a document, make a difference!</p>
-                                <a href="javascript:void(0);" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" onclick="openRegisterForm()">Register Document</a>
+                                <a href="javascript:void(0);" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" onclick="openRegisterForm('CustodianDetails')">Register Document</a>
                                 <!-- <a href="" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Find a Document</a> -->
                             </div>
                         </div>
@@ -428,8 +428,9 @@
     </div>
     <!-- Footer End -->
 
-    <!-- Login form for custodian-->
 
+
+    <!-- Login form for custodian-->
     <div id="custodianLoginForm" class="popup-form">
         <div class="popup-content">
             <div class="popup-header">
@@ -470,9 +471,157 @@
         </div>
     </div>
 
+    <!-- Custodian Details Form Start -->
+    <div id="CustodianDetails" class="popup-form">
+        <div class="popup-content">
+            <div class="popup-header">
+                <button type="button" class="close-btn" onclick="closeForm('CustodianDetails')">&times;</button>
+                <h3 class="popup-title text-center text-primary px-3 mb-3">You are about to help someone recover a lost Document </h3>
+            </div>
+            <form id="CustodianDetailsForm">
+                <p class="text-center mb-5">Let the owner know how to reach you</p> 
+                <div id="custodian-details">
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <input type="text" id="c-firstName" name="firstName" class="form-control" placeholder="Jane"required>
+                        </div>
+        
+                        <div class="col-sm-6">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <input type="text" id="c-lastName" name="lastName" class="form-control" placeholder="Smith" required>
+                        </div>
+                    </div>
+        
+                    <div class="row mb-3 align-items-end phone-row">
+                        <label for="phoneNumber" class="form-label">Phone Number</label>
+                        
+                        <div class="col-md-3">
+                            <select id="c-countryCode" class="form-select">
+                                <option value="254">+254</option>
+                                <option value="255">+255</option>
+                                <option value="253">+253</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <input type="tel" id="c-phoneNumber" placeholder="Phone Number" class="form-control" required>
+                        </div>
+        
+                        <div class="col-md-3">
+                            <button type="button" class="c-verify-btn" id="verifyBtn">Verify</button>
+                        </div>
+                    </div>
+                </div>
+                
+    
+                <!-- Verification Code Input -->
+                <div class="c-verification-box">
+                    <input type="text" maxlength="1" class="verify-code form-control">
+                    <input type="text" maxlength="1" class="verify-code form-control">
+                    <input type="text" maxlength="1" class="verify-code form-control">
+                    <input type="text" maxlength="1" class="verify-code form-control">
+                </div>
+    
+                <!-- Checkboxes -->
+                <div class="c-form-check mt-3">
+                    <input class="form-check-input" type="checkbox" id="c-agreeTerms">
+                    <label class="form-check-label" for="agreeTerms">
+                        I agree to the Terms & Conditions
+                    </label>
+                </div>
+    
+                <div class="c-form-check">
+                    <input class="form-check-input" type="checkbox" id="c-agreeThirdParty">
+                    <label class="form-check-label" for="agreeThirdParty">
+                        I agree to share my contact with the Document's owner
+                    </label>
+                </div>
+    
+                <!-- Submit Button -->
+                <button type="submit" class="c-submit-btn">Next</button>
+            </form>
+        </div>
+    </div>
+    <!-- Custodian Details Form End -->
+
+    <!-- Owner Details Start -->
+    <div id="OwnerDetails" class="popup-form">
+        <div class="popup-content">
+            <div class="popup-header">
+                <button type="button" class="close-btn" onclick="closeForm('OwnerDetails')">&times;</button>
+                <h3 class="popup-title text-center text-primary px-3 mb-3">Let us Know how to reach you </h3>
+            </div>
+            
+            <form class="OwnerDetailsForm" id="OwnerDetailsForm">
+                <div id="owner-details">
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <input type="text" id="o-firstName" name="firstName" class="form-control" placeholder="Jane"required>
+                        </div>
+        
+                        <div class="col-sm-6">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <input type="text" id="o-lastName" name="lastName" class="form-control" placeholder="Smith" required>
+                        </div>
+                    </div>
+        
+                    <div class="row mb-3 align-items-end phone-row">
+                        <label for="phoneNumber" class="form-label">Phone Number</label>
+                        
+                        <div class="col-md-3">
+                            <select id="o-countryCode" class="form-select">
+                                <option value="254">+254</option>
+                                <option value="255">+255</option>
+                                <option value="253">+253</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <input type="tel" id="o-phoneNumber" placeholder="Phone Number" class="form-control" required>
+                        </div>
+        
+                        <div class="col-md-3">
+                            <button type="button" class="verify-btn" id="ownerVerifyBtn">Verify</button>
+                        </div>
+                    </div>
+                </div>
+                
+    
+                <!-- Verification Code Input -->
+                <div class="o-verification-box">
+                    <input type="text" maxlength="1" class="verify-code form-control">
+                    <input type="text" maxlength="1" class="verify-code form-control">
+                    <input type="text" maxlength="1" class="verify-code form-control">
+                    <input type="text" maxlength="1" class="verify-code form-control">
+                    <input type="text" maxlength="1" class="verify-code form-control">
+                </div>
+    
+                <!-- Checkboxes -->
+                <div class="o-form-check mt-3">
+                    <input class="form-check-input" type="checkbox" id="OwnerAgreeTerms">
+                    <label class="form-check-label" for="agreeTerms">
+                        I agree to the Terms & Conditions
+                    </label>
+                </div>
+    
+                <div class="o-form-check">
+                    <input class="form-check-input" type="checkbox" id="OwnerAgreeThirdParty">
+                    <label class="form-check-label" for="agreeThirdParty">
+                        I agree to share my details with third party
+                    </label>
+                </div>
+    
+                <!-- Submit Button -->
+                <button type="submit" class="o-submit-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+    <!-- Owner Details End -->
 
     <!-- Register Document Form -->
-    <div id="registerForm" class="popup-form">
+    <div id="registerDocForm" class="popup-form">
         <div class="popup-content">
             <div class="popup-header">
                 <button type="button" class="close-btn" onclick="closeForm('registerForm')">&times;</button>
@@ -564,6 +713,8 @@
             </form>
         </div>
     </div>
+
+        
 
     <!-- Success Modal -->
     <div id="successModal" class="modal" style="display: none;">
