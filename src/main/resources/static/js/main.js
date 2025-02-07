@@ -215,43 +215,66 @@ let testimonialCarousel;
         // Initially disable the owner verification input, check boxes and submit button
         $(".c-verification-box input, .c-form-check input, .c-submit-btn").prop("disabled", true);
 
-        // 📌 Custodian Form: Handle Verify Button Click
+        // Custodian Form: Handle Verify Button Click
         $(".c-verify-btn").on("click", function () {
             const firstName = $("#c-firstName").val().trim();
             const lastName = $("#c-lastName").val().trim();
-            const phoneNumber = $("#c-countryCode").val() + $("#c-phoneNumber").val().trim();
+            let phoneNumber = $("#c-phoneNumber").val().trim();
+            const countryCode = $("#c-countryCode").val();
             const otpLength = 4;
-
-            if (!firstName || !lastName) {
-                alert("Please enter your First Name and Last Name.");
+        
+            // Name Validation (Only letters & apostrophe, 2-12 characters)
+            const namePattern = /^[A-Za-z']{2,12}$/;
+        
+            if (!namePattern.test(firstName)) {
+                alert("First name must be 2-12 characters long and contain only letters or an apostrophe (').");
                 return;
             }
-
-            if (!phoneNumber) {
-                alert("Please enter a valid phone number.");
+        
+            if (!namePattern.test(lastName)) {
+                alert("Last name must be 2-12 characters long and contain only letters or an apostrophe (').");
                 return;
             }
-
-
+        
+            // Phone Number Validation (Only numbers, 9-10 digits)
+            const phonePattern = /^[0-9]{9,10}$/;
+        
+            // Remove leading zero if present
+            if (phoneNumber.startsWith("0")) {
+                phoneNumber = phoneNumber.substring(1);
+            }
+        
+            if (!phonePattern.test(phoneNumber)) {
+                alert("Phone number must be 9-10 digits and contain only numbers.");
+                return;
+            }
+        
+            // Final formatted phone number (with country code)
+            const fullPhoneNumber = countryCode + phoneNumber;
+        
+            console.log("Validated Full Name:", firstName, lastName);
+            console.log("Validated Phone Number:", fullPhoneNumber);
+        
             // Send verification request
             $.ajax({
                 url: "/api/v1/custodian/register",
                 type: "POST",
                 contentType: "application/json",
-                data: JSON.stringify({ fullName: firstName + " " + lastName, phoneNumber }),
+                data: JSON.stringify({ fullName: firstName + " " + lastName, phoneNumber: fullPhoneNumber }),
                 success: function () {
                     alert("Verification code sent. Please check your phone.");
                     $(".c-verification-box input, .c-form-check input, .c-submit-btn").prop("disabled", false);
                     $(".c-verification-box input").data("otpLength", otpLength);
                 },
                 error: function () {
-                    alert("Error sending verification code. Please try again Later.");
+                    alert("Error sending verification code. Please try again later.");
                 }
             });
         });
+        
 
 
-        // 📌 Custodian Form: Handle OTP Input & Enable Submit Button
+        // Custodian Form: Handle OTP Input & Enable Submit Button
         $(".c-verification-box input").on("keyup", function (event) {            
             const currentInput = $(this);        
             // Handle number input
@@ -273,7 +296,7 @@ let testimonialCarousel;
             }).get().join("");
         });
         
-        // 📌 Custodian Form: Handle Form Submission
+        // Custodian Form: Handle Form Submission
         $("#CustodianDetailsForm").on("submit", function (e) {
             alert("We're Hre");
             e.preventDefault();
@@ -315,7 +338,7 @@ let testimonialCarousel;
         // Initially disable the owner verification input, check boxes and submit button
         $(".o-verification-box input, .o-form-check input, .o-submit-btn").prop("disabled", true);
 
-        // 📌 Owner Form: Handle Verify Button Click
+        // Owner Form: Handle Verify Button Click
         $("#ownerVerifyBtn").on("click", function () {    
             const firstName = $("#o-firstName").val().trim();
             const lastName = $("#o-lastName").val().trim();
@@ -349,7 +372,7 @@ let testimonialCarousel;
             });
         });
     
-        // 📌 Owner Form: Handle OTP Input & Enable Submit Button
+        // Owner Form: Handle OTP Input & Enable Submit Button
         $(".o-verification-box input").on("keyup", function (event) {
             const currentInput = $(this);
             let otpLength = 5;
@@ -380,7 +403,7 @@ let testimonialCarousel;
             }
         });
     
-        // 📌 Owner Form: Handle Form Submission
+        // Owner Form: Handle Form Submission
         $("#OwnerDetailsForm").on("submit", function (e) {
             console.log("Submit button - owner");
             e.preventDefault();

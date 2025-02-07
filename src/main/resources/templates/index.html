@@ -429,7 +429,6 @@
     <!-- Footer End -->
 
 
-
     <!-- Login form for custodian-->
     <div id="custodianLoginForm" class="popup-form">
         <div class="popup-content">
@@ -483,18 +482,18 @@
                 <div id="custodian-details">
                     <div class="row mb-3">
                         <div class="col-sm-6">
-                            <label for="firstName" class="form-label">First Name</label>
+                            <label for="firstName" class="form-label">First Name <span style="color: red;">*</span></label>
                             <input type="text" id="c-firstName" name="firstName" class="form-control" placeholder="Jane"required>
                         </div>
         
                         <div class="col-sm-6">
-                            <label for="lastName" class="form-label">Last Name</label>
+                            <label for="lastName" class="form-label">Last Name <span style="color: red;">*</span></label>
                             <input type="text" id="c-lastName" name="lastName" class="form-control" placeholder="Smith" required>
                         </div>
                     </div>
         
                     <div class="row mb-3 align-items-end phone-row">
-                        <label for="phoneNumber" class="form-label">Phone Number</label>
+                        <label for="phoneNumber" class="form-label">Phone Number <span style="color: red;">*</span></label>
                         
                         <div class="col-md-3">
                             <select id="c-countryCode" class="form-select">
@@ -557,18 +556,18 @@
                 <div id="owner-details">
                     <div class="row mb-3">
                         <div class="col-sm-6">
-                            <label for="firstName" class="form-label">First Name</label>
+                            <label for="firstName" class="form-label">First Name <span style="color: red;">*</span></label>
                             <input type="text" id="o-firstName" name="firstName" class="form-control" placeholder="Jane"required>
                         </div>
         
                         <div class="col-sm-6">
-                            <label for="lastName" class="form-label">Last Name</label>
+                            <label for="lastName" class="form-label">Last Name <span style="color: red;">*</span></label>
                             <input type="text" id="o-lastName" name="lastName" class="form-control" placeholder="Smith" required>
                         </div>
                     </div>
         
                     <div class="row mb-3 align-items-end phone-row">
-                        <label for="phoneNumber" class="form-label">Phone Number</label>
+                        <label for="phoneNumber" class="form-label">Phone Number <span style="color: red;">*</span></label>
                         
                         <div class="col-md-3">
                             <select id="o-countryCode" class="form-select">
@@ -624,13 +623,13 @@
     <div id="registerDocForm" class="popup-form">
         <div class="popup-content">
             <div class="popup-header">
-                <button type="button" class="close-btn" onclick="closeForm('registerForm')">&times;</button>
+                <button type="button" class="close-btn" onclick="closeForm('registerDocForm')">&times;</button>
                 <h2 class="popup-title">Let's Find the Owner</h2>
             </div>
             <form id="registerDocForm">
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="documentType" class="form-label">Document Type</label>
+                        <label for="documentType" class="form-label">Document Type <span style="color: red;">*</span></label>
                         <select id="documentType" class="form-select" required>
                             <option value="" disabled selected>Select document type</option>
                             <option value="ID Card">National ID Card</option>
@@ -652,18 +651,18 @@
     
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="ownerFirstName" class="form-label">Owner's First Name</label>
+                        <label for="ownerFirstName" class="form-label">Owner's First Name <span style="color: red;">*</span></label>
                         <input type="text" id="ownerFirstName" class="form-control" placeholder="Enter owner's first name" required>
                     </div>
                     <div class="col-md-6">
-                        <label for="ownerLastName" class="form-label">Owner's Last Name</label>
+                        <label for="ownerLastName" class="form-label">Owner's Last Name <span style="color: red;">*</span></label>
                         <input type="text" id="ownerLastName" class="form-control" placeholder="Enter owner's last name" >
                     </div>
                 </div>
     
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="documentNumber" class="form-label">Document Number</label>
+                        <label for="documentNumber" class="form-label">Document Number <span style="color: red;">*</span></label>
                         <input type="text" id="documentNumber" class="form-control" placeholder="Enter document number">
                     </div>
                     <div class="col-md-6">
@@ -673,12 +672,12 @@
                 </div>
     
                 <div class="mb-3">
-                    <label for="dateFound" class="form-label">Date Found</label>
+                    <label for="dateFound" class="form-label">Date Found <span style="color: red;">*</span></label>
                     <input type="date" id="dateFound" class="form-control" required>
                 </div>
     
                 <div class="mb-3">
-                    <label for="moreNotes" class="form-label">Additional Notes</label>
+                    <label for="moreNotes" class="form-label">Additional Notes <span style="font-style: italic;">(optional)</span></label>
                     <textarea id="moreNotes" class="form-control" rows="3" placeholder="Enter any additional notes"></textarea>
                 </div>
     
