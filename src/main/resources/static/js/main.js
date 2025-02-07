@@ -252,8 +252,6 @@ let testimonialCarousel;
             // Final formatted phone number (with country code)
             const fullPhoneNumber = countryCode + phoneNumber;
         
-            console.log("Validated Full Name:", firstName, lastName);
-            console.log("Validated Phone Number:", fullPhoneNumber);
         
             // Send verification request
             $.ajax({
@@ -345,15 +343,36 @@ let testimonialCarousel;
             const phoneNumber = $("#o-countryCode").val() + $("#o-phoneNumber").val().trim();
             const otpLength = 5;
     
-            if (!firstName || !lastName) {
-                alert("Please enter your First Name and Last Name.");
+            
+            // Name Validation (Only letters & apostrophe, 2-12 characters)
+            const namePattern = /^[A-Za-z']{2,12}$/;
+        
+            if (!namePattern.test(firstName)) {
+                alert("First name must be 2-12 characters long and contain only letters or an apostrophe (').");
                 return;
             }
-    
-            if (!phoneNumber) {
-                alert("Please enter a valid phone number.");
+        
+            if (!namePattern.test(lastName)) {
+                alert("Last name must be 2-12 characters long and contain only letters or an apostrophe (').");
                 return;
             }
+        
+            // Phone Number Validation (Only numbers, 9-10 digits)
+            const phonePattern = /^[0-9]{9,10}$/;
+        
+            // Remove leading zero if present
+            if (phoneNumber.startsWith("0")) {
+                phoneNumber = phoneNumber.substring(1);
+            }
+        
+            if (!phonePattern.test(phoneNumber)) {
+                alert("Phone number must be 9-10 digits and contain only numbers.");
+                return;
+            }
+        
+            // Final formatted phone number (with country code)
+            const fullPhoneNumber = countryCode + phoneNumber;
+        
         
             // Send verification request
             $.ajax({
