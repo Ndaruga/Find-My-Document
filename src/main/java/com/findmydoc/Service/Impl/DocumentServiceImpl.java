@@ -35,10 +35,8 @@ public class DocumentServiceImpl implements DocumentService {
         String moreNotes = documentDetails.getMoreNotes().strip();
         int custodianId = documentDetails.getCustodianId();
 
-        logger.info(documentType + " " + documentNumber + " " + docSerialNo + " " + custodianId);
-
 //        Validate that the custodian ID exists in the request and matches one in the database
-        if (custodianId != documentDetails.getCustodianId()){
+        if (!(custodianId > 0)){
             throw new InvalidParameterException("Custodian ID is not valid");
         }
 

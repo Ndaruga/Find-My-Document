@@ -349,7 +349,8 @@ let testimonialCarousel;
         $("#ownerVerifyBtn").on("click", function () {    
             const firstName = $("#o-firstName").val().trim();
             const lastName = $("#o-lastName").val().trim();
-            const phoneNumber = $("#o-countryCode").val() + $("#o-phoneNumber").val().trim();
+            const phoneNumber = $("#o-phoneNumber").val().trim();
+            const countryCode = $("#o-countryCode").val();
             const otpLength = 5;
     
 
@@ -388,7 +389,7 @@ let testimonialCarousel;
                 url: "/api/v1/owner/register",
                 type: "POST",
                 contentType: "application/json",
-                data: JSON.stringify({ fullName: firstName + " " + lastName, fullPhoneNumber }),
+                data: JSON.stringify({ fullName: firstName + " " + lastName, phoneNumber:fullPhoneNumber }),
                 success: function () {
                     alert("Verification code sent. Please check your phone.");
                     $(".o-verification-box input, .o-form-check input, .o-submit-btn").prop("disabled", false);
@@ -433,10 +434,9 @@ let testimonialCarousel;
     
         // Owner Form: Handle Form Submission
         $("#OwnerDetailsForm").on("submit", function (e) {
-            console.log("Submit button - owner");
             e.preventDefault();
     
-            const phoneNumber = $("#OwnerDetails #countryCode").val() + $("#OwnerDetails #phoneNumber").val().trim();
+            const phoneNumber = $("#o-countryCode").val() + $("#o-phoneNumber").val().trim();
             let otp = $(".o-verification-box input").map(function () {
                 return $(this).val();
             }).get().join("");
