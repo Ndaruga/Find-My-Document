@@ -37,6 +37,11 @@ public class DocumentServiceImpl implements DocumentService {
 
         logger.info(documentType + " " + documentNumber + " " + docSerialNo + " " + custodianId);
 
+//        Validate that the custodian ID exists in the request and matches one in the database
+        if (custodianId != documentDetails.getCustodianId()){
+            throw new InvalidParameterException("Custodian ID is not valid");
+        }
+
 //        Validate that either the document number or serial number must exist
         if (documentNumber.length() < 5 && docSerialNo.length() < 5){
             throw new InvalidParameterException("Invalid document identifier");

@@ -95,13 +95,20 @@ let testimonialCarousel;
     $(document).ready(function() {
         $('#registerDocForm').on('submit', function(e) {
             e.preventDefault();
+            const documentType = $('#documentType').val().trim();
+            const nationality = $('#nationality').val().trim();
             const firstName = $('#ownerFirstName').val().trim();
             const lastName = $('#ownerLastName').val().trim();
             const documentNumber = $('#documentNumber').val().trim();
             const serialNumber = $('#serialNumber').val().trim();
             const dateFound = $('#dateFound').val();
             const moreNotes = $('#moreNotes').val().trim()
-            const founderId = 12;
+            const custodianId = sessionStorage.getItem('returnedCustodianID');
+
+            if (!custodianId > 1){
+                alert("An error occured while registering your details.");
+                return;
+            }
 
             // Validation regex patterns
             const namePattern = /^[A-Za-z]+$/;
@@ -114,12 +121,12 @@ let testimonialCarousel;
 
             // Validate names
             if (!namePattern.test(firstName)) {
-                alert("Owner's first name must contain alphabetic characters only.");
+                alert("First name must contain alphabetic characters only.");
                 return;
             }
 
             if (lastName && !namePattern.test(lastName)) {
-                alert("Owner's last name must contain alphabetic characters only.");
+                alert("Last name must contain alphabetic characters only.");
                 return;
             }
 
@@ -153,14 +160,15 @@ let testimonialCarousel;
 
             // If all validations pass, proceed
             const payload = {
-                documentType,
-                serialNumber,
-                documentNumber,
-                ownerFirstName,
-                dateFound,
-                moreNotes,
-                founderId
+                documentType: String(documentType),
+                serialNumber: String(serialNumber),
+                documentNumber: String(documentNumber),
+                ownerFirstName: String(firstName),
+                dateFound: String(dateFound),
+                moreNotes: String(moreNotes),
+                custodianId: String(custodianId)
             };
+
     
             // Send POST request
             $.ajax({
@@ -168,12 +176,13 @@ let testimonialCarousel;
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(payload),
-                success: function(response) {
+                success: function() {
                     alert("Document registered successfully!");
-                    closeForm('registerForm');
+                    closeForm('CustodianDetails');
+                    closeForm('registerDocForm');
                 },
                 error: function(error) {
-                    alert("Failed to register document: " + error.responseText);
+                    alert("Failed to register document. Please Try again later");
                 }
             });
         });
@@ -259,7 +268,8 @@ let testimonialCarousel;
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify({ fullName: firstName + " " + lastName, phoneNumber: fullPhoneNumber }),
-                success: function () {
+                success: function (response) {
+                    sessionStorage.setItem("returnedCustodianID", response.message.split(".")[0].trim());
                     alert("Verification code sent. Please check your phone.");
                     $(".c-verification-box input, .c-form-check input, .c-submit-btn").prop("disabled", false);
                     $(".c-verification-box input").data("otpLength", otpLength);
@@ -296,7 +306,6 @@ let testimonialCarousel;
         
         // Custodian Form: Handle Form Submission
         $("#CustodianDetailsForm").on("submit", function (e) {
-            alert("We're Hre");
             e.preventDefault();
 
             const phoneNumber = $("#c-countryCode").val() + $("#c-phoneNumber").val().trim();
@@ -343,7 +352,7 @@ let testimonialCarousel;
             const phoneNumber = $("#o-countryCode").val() + $("#o-phoneNumber").val().trim();
             const otpLength = 5;
     
-            
+
             // Name Validation (Only letters & apostrophe, 2-12 characters)
             const namePattern = /^[A-Za-z']{2,12}$/;
         
@@ -379,7 +388,7 @@ let testimonialCarousel;
                 url: "/api/v1/owner/register",
                 type: "POST",
                 contentType: "application/json",
-                data: JSON.stringify({ fullName: firstName + " " + lastName, phoneNumber }),
+                data: JSON.stringify({ fullName: firstName + " " + lastName, fullPhoneNumber }),
                 success: function () {
                     alert("Verification code sent. Please check your phone.");
                     $(".o-verification-box input, .o-form-check input, .o-submit-btn").prop("disabled", false);
