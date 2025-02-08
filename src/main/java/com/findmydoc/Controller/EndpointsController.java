@@ -44,4 +44,13 @@ public class EndpointsController {
 
     @GetMapping("/custodian-details")
     public String custodianDetails() { return "custodian-details.html"; }
+
+    @GetMapping("/privacy-policy")
+    public String privacyPolicy() { return "privacy-policy.html"; }
+
+    @GetMapping("/Ts-Cs")
+    public String TsCs() { return "TsandCs.html"; }
+
+    @GetMapping("/FAQ")
+    public String FAQ() { return "faq.html"; }
 }
