@@ -28,8 +28,7 @@ public class CustodianContoller {
     @PostMapping({"/register"})
     public ResponseEntity<Map<String, String>> addNewCustodian(@RequestBody CustodianDetails custodianDetails) {
         custodianService.addNewCustodian(custodianDetails);
-        logger.info(custodianDetails.toString());
-        return new ResponseEntity<>(Map.of("message", "Custodian added Successfully"), HttpStatus.CREATED);
+        return new ResponseEntity<>(Map.of("message", custodianDetails.getId() + ". Custodian added Successfully"), HttpStatus.CREATED);
     }
 
     @PostMapping({"/login"})
